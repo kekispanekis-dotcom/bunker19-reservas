@@ -86,11 +86,10 @@ export async function POST(request: Request) {
             reservation.durationHours
           );
 
-          const overlaps =
+          return (
             toMinutes(startTime) < toMinutes(reservationEnd) &&
-            toMinutes(requestEnd) > toMinutes(reservation.startTime);
-
-          return overlaps;
+            toMinutes(requestEnd) > toMinutes(reservation.startTime)
+          );
         }
       );
 
@@ -108,7 +107,7 @@ export async function POST(request: Request) {
       })),
     });
   } catch (error) {
-    console.error("AVAILABILITY ERROR:", error);
+    console.error("PUBLIC AVAILABILITY ERROR:", error);
 
     return NextResponse.json(
       {
@@ -118,3 +117,4 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
+}
