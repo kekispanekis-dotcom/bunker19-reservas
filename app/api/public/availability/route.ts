@@ -108,9 +108,13 @@ export async function POST(request: Request) {
       })),
     });
   } catch (error) {
+    console.error("AVAILABILITY ERROR:", error);
+
     return NextResponse.json(
-      { error: "No se pudo consultar disponibilidad." },
+      {
+        error: "No se pudo consultar disponibilidad.",
+        detail: error instanceof Error ? error.message : String(error),
+      },
       { status: 400 }
     );
   }
-}
