@@ -7,7 +7,7 @@ export default function HomePage() {
         className="relative overflow-hidden rounded-b-[36px] bg-[#07140c]"
         style={{
           backgroundImage:
-            "linear-gradient(90deg, rgba(4,13,8,.98), rgba(6,22,14,.86), rgba(6,22,14,.35)), url('https://images.unsplash.com/photo-1599058917765-a780eda07a3e?q=80&w=1800&auto=format&fit=crop')
+            "linear-gradient(90deg, rgba(4,13,8,.98), rgba(6,22,14,.86), rgba(6,22,14,.35)), url('https://images.unsplash.com/photo-1599058917765-a780eda07a3e?q=80&w=1800&auto=format&fit=crop')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
