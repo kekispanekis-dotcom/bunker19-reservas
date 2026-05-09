@@ -3,16 +3,21 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-[#f4f4ef] text-[#102318]">
-      <section
-        className="relative overflow-hidden rounded-b-[36px] bg-[#07140c]"
-        style={{
-          backgroundImage:
-            "linear-gradient(90deg, rgba(4,13,8,.98), rgba(6,22,14,.86), rgba(6,22,14,.35)), url('https://images.unsplash.com/photo-1599058917765-a780eda07a3e?q=80&w=1800&auto=format&fit=crop')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="mx-auto max-w-7xl px-6 py-12">
+      <section className="relative overflow-hidden rounded-b-[36px] bg-black">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="https://images.unsplash.com/photo-1599058917765-a780eda07a3e?q=80&w=1800&auto=format&fit=crop"
+          className="absolute inset-0 h-full w-full object-cover"
+        >
+          <source src="/hero.mp4" type="video/mp4" />
+        </video>
+
+        <div className="absolute inset-0 bg-black/70" />
+
+        <div className="relative z-10 mx-auto max-w-7xl px-6 py-12">
           <nav className="flex items-center justify-between">
             <div className="text-white">
               <div className="text-3xl font-black tracking-[0.18em]">
@@ -91,16 +96,10 @@ export default function HomePage() {
             </div>
 
             <div className="hidden lg:block">
-              <div
-                className="relative min-h-[520px] overflow-hidden rounded-[34px] border border-white/10 shadow-2xl"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.60)), url('https://images.unsplash.com/photo-1592919505780-303950717480?q=80&w=1400&auto=format&fit=crop')",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              >
-                <div className="absolute bottom-6 left-6 right-6 rounded-2xl border border-white/10 bg-black/45 p-5 text-white backdrop-blur-md">
+              <div className="relative overflow-hidden rounded-[34px] border border-white/10 bg-black/30 p-6 shadow-2xl backdrop-blur-md">
+                <div className="aspect-[4/5] rounded-[26px] border border-white/10 bg-black/30 backdrop-blur" />
+
+                <div className="absolute bottom-10 left-10 right-10 rounded-2xl border border-white/10 bg-black/50 p-5 text-white backdrop-blur-md">
                   <div className="text-xs font-black uppercase tracking-[0.22em] text-white/60">
                     Experiencia indoor
                   </div>
@@ -108,7 +107,7 @@ export default function HomePage() {
                     Juega, compite y disfruta
                   </div>
                   <div className="mt-1 text-sm text-white/75">
-                    Bahías listas para tu grupo con ambiente de bar deportivo.
+                    Bahías listas para tu grupo con ambiente premium.
                   </div>
                 </div>
               </div>
