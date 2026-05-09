@@ -7,7 +7,7 @@ export default function HomePage() {
         className="relative overflow-hidden rounded-b-[36px] bg-black"
         style={{
           backgroundImage:
-            "linear-gradient(90deg, rgba(0,0,0,.82), rgba(0,0,0,.55)), url('https://images.unsplash.com/photo-1599058917765-a780eda07a3e?q=80&w=1800&auto=format&fit=crop')",
+            "linear-gradient(90deg, rgba(0,0,0,.82), rgba(0,0,0,.55)), url('https://images.unsplash.com/photo-1592919505780-303950717480?q=80&w=1800&auto=format&fit=crop')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -100,21 +100,21 @@ export default function HomePage() {
                   className="aspect-[4/5] rounded-[26px] border border-white/10 bg-cover bg-center"
                   style={{
                     backgroundImage:
-                      "linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.45)), url('https://images.unsplash.com/photo-1535131749006-b7f58c99034b?q=80&w=1400&auto=format&fit=crop')",
+                      "linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.45)), url('https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1400&auto=format&fit=crop')",
                   }}
                 />
 
                 <div className="absolute bottom-10 left-10 right-10 rounded-2xl border border-white/10 bg-black/50 p-5 text-white backdrop-blur-md">
                   <div className="text-xs font-black uppercase tracking-[0.22em] text-white/60">
-                    Experiencia indoor
+                    Simulador premium
                   </div>
 
                   <div className="mt-2 text-2xl font-black">
-                    Juega, compite y disfruta
+                    Vive la experiencia Bunker 19
                   </div>
 
                   <div className="mt-1 text-sm text-white/75">
-                    Bahías listas para tu grupo con ambiente premium.
+                    Golf indoor, comida, drinks y ambiente exclusivo.
                   </div>
                 </div>
               </div>
