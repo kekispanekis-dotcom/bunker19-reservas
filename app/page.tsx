@@ -69,7 +69,7 @@ export default function HomePage() {
                 </Link>
 
                 <a
-                  href={`https://wa.me/5216560000000?text=${whatsappMessage}`}
+                  href={`https://wa.me/526561101644?text=${whatsappMessage}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="rounded-xl border border-white/25 bg-white/10 px-8 py-4 text-base font-bold uppercase text-white backdrop-blur transition hover:scale-[1.03] hover:bg-white/20"
