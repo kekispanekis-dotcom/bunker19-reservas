@@ -70,7 +70,7 @@ export default function HomePage() {
                 </Link>
 
                 <a
-                  href={`https://wa.me/5216560000000?text=${whatsappMessage}`}
+                  href={`https://wa.me/526561101644?text=${whatsappMessage}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="rounded-xl border border-white/25 bg-[#25D366] px-8 py-4 text-base font-bold uppercase text-white shadow-xl transition hover:scale-[1.03] hover:bg-[#20ba5a]"
@@ -226,7 +226,7 @@ export default function HomePage() {
       </footer>
 
       <a
-        href={`https://wa.me/5216560000000?text=${whatsappMessage}`}
+        href={`https://wa.me/526561101644?text=${whatsappMessage}`}
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-24 right-5 z-50 hidden items-center gap-2 rounded-full bg-[#25D366] px-6 py-4 text-sm font-black uppercase text-white shadow-[0_20px_45px_rgba(37,211,102,0.45)] transition hover:scale-105 hover:bg-[#20ba5a] md:flex"
