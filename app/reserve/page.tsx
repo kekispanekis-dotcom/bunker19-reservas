@@ -53,7 +53,7 @@ function getBayAccent(type: "standard" | "vip") {
 }
 
 export default function ReservePage() {
-  const whatsappNumber = "5216560000000";
+  const whatsappNumber = "5216561101644";
 
   const [date, setDate] = useState(() => {
     const now = new Date();
