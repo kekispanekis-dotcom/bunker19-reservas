@@ -11,6 +11,7 @@ import {
   Trophy,
   MessageCircle,
   CheckCircle2,
+  QrCode,
 } from "lucide-react";
 
 type AvailableBay = {
@@ -20,6 +21,8 @@ type AvailableBay = {
   capacity: number;
   price: number;
 };
+
+const whatsappNumber = "5216561101644";
 
 const timeSlots = [
   "10:00", "11:00", "12:00", "13:00", "14:00", "15:00",
@@ -53,8 +56,6 @@ function getBayAccent(type: "standard" | "vip") {
 }
 
 export default function ReservePage() {
-  const whatsappNumber = "5216561101644";
-
   const [date, setDate] = useState(() => {
     const now = new Date();
     const local = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
@@ -88,9 +89,17 @@ export default function ReservePage() {
     return selectedBay.price * Number(durationHours || 0);
   }, [selectedBay, durationHours]);
 
+  const qrText = createdReservation
+    ? `BUNKER 19 | Reserva: ${createdReservation.code} | Cliente: ${createdReservation.customer} | Bahía: ${createdReservation.bay} | Fecha: ${date} | Hora: ${startTime} | Total: $${createdReservation.totalAmount}`
+    : "BUNKER 19";
+
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(
+    qrText
+  )}`;
+
   const whatsappMessage = encodeURIComponent(
     createdReservation
-      ? `Hola, tengo una reservación en Bunker 19. Código: ${createdReservation.code}. Cliente: ${createdReservation.customer}. Bahía: ${createdReservation.bay}. Fecha: ${date}. Hora: ${startTime}.`
+      ? `Hola, tengo una reservación en Bunker 19.%0A%0ACódigo: ${createdReservation.code}%0ACliente: ${createdReservation.customer}%0ABahía: ${createdReservation.bay}%0AFecha: ${date}%0AHora: ${startTime}%0ADuración: ${durationHours} hora(s)%0APersonas: ${guestCount}%0ATotal: $${createdReservation.totalAmount}`
       : "Hola, quiero información para reservar una bahía en Bunker 19."
   );
 
@@ -255,80 +264,38 @@ export default function ReservePage() {
             </div>
 
             <div className="mt-6 grid gap-4 md:grid-cols-3">
-              <input
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                placeholder="Nombre completo"
-                className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition focus:border-[#17833d]"
-              />
-
-              <input
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="Teléfono"
-                className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition focus:border-[#17833d]"
-              />
-
-              <input
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Correo"
-                className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition focus:border-[#17833d]"
-              />
+              <input value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="Nombre completo" className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition focus:border-[#17833d]" />
+              <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Teléfono" className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition focus:border-[#17833d]" />
+              <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Correo" className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition focus:border-[#17833d]" />
             </div>
 
             <div className="mt-5 grid gap-4 md:grid-cols-4">
               <div className="relative">
-                <input
-                  type="date"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  className="w-full rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition focus:border-[#17833d]"
-                />
-
+                <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="w-full rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition focus:border-[#17833d]" />
                 <CalendarDays className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#17833d]" />
               </div>
 
-              <select
-                value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
-                className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition focus:border-[#17833d]"
-              >
+              <select value={startTime} onChange={(e) => setStartTime(e.target.value)} className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition focus:border-[#17833d]">
                 {timeSlots.map((slot) => (
-                  <option key={slot} value={slot}>
-                    {slot}
-                  </option>
+                  <option key={slot} value={slot}>{slot}</option>
                 ))}
               </select>
 
-              <select
-                value={durationHours}
-                onChange={(e) => setDurationHours(e.target.value)}
-                className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition focus:border-[#17833d]"
-              >
+              <select value={durationHours} onChange={(e) => setDurationHours(e.target.value)} className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition focus:border-[#17833d]">
                 <option value="1">1 hora</option>
                 <option value="2">2 horas</option>
                 <option value="3">3 horas</option>
                 <option value="4">4 horas</option>
               </select>
 
-              <select
-                value={guestCount}
-                onChange={(e) => setGuestCount(e.target.value)}
-                className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition focus:border-[#17833d]"
-              >
+              <select value={guestCount} onChange={(e) => setGuestCount(e.target.value)} className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition focus:border-[#17833d]">
                 {["2", "3", "4", "5", "6", "8", "10"].map((qty) => (
-                  <option key={qty} value={qty}>
-                    {qty} personas
-                  </option>
+                  <option key={qty} value={qty}>{qty} personas</option>
                 ))}
               </select>
             </div>
 
-            <button
-              onClick={checkAvailability}
-              className="mt-6 rounded-2xl bg-[#17833d] px-8 py-4 text-sm font-black uppercase text-white shadow-xl transition hover:scale-[1.02] hover:bg-[#1f9a4b]"
-            >
+            <button onClick={checkAvailability} className="mt-6 rounded-2xl bg-[#17833d] px-8 py-4 text-sm font-black uppercase text-white shadow-xl transition hover:scale-[1.02] hover:bg-[#1f9a4b]">
               Ver disponibilidad →
             </button>
           </section>
@@ -375,9 +342,7 @@ export default function ReservePage() {
 
                     <div className="p-6">
                       <div className="flex flex-wrap items-center gap-3">
-                        <div
-                          className={`rounded-full border px-3 py-1 text-xs font-black uppercase tracking-[0.18em] ${accent.badge}`}
-                        >
+                        <div className={`rounded-full border px-3 py-1 text-xs font-black uppercase tracking-[0.18em] ${accent.badge}`}>
                           {accent.label}
                         </div>
 
@@ -424,9 +389,7 @@ export default function ReservePage() {
 
                         <div className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[#17833d]">
                           <Star className="h-4 w-4" />
-                          {bay.type === "vip"
-                            ? "Experiencia premium"
-                            : "Ideal para grupos"}
+                          {bay.type === "vip" ? "Experiencia premium" : "Ideal para grupos"}
                         </div>
                       </div>
                     </div>
@@ -455,10 +418,7 @@ export default function ReservePage() {
                 ["Personas", guestCount],
                 ["Bahía", selectedBay?.code || "--"],
               ].map(([label, value]) => (
-                <div
-                  key={label}
-                  className="flex items-center justify-between border-b border-black/5 pb-3"
-                >
+                <div key={label} className="flex items-center justify-between border-b border-black/5 pb-3">
                   <span className="text-sm text-[#728076]">{label}</span>
                   <span className="font-black text-[#103820]">{value}</span>
                 </div>
@@ -485,54 +445,73 @@ export default function ReservePage() {
           </section>
 
           {createdReservation ? (
-            <section className="rounded-[32px] border border-[#17833d]/10 bg-white p-6 shadow-[0_16px_40px_rgba(21,32,24,0.08)]">
-              <div className="flex items-center gap-3">
-                <CheckCircle2 className="h-8 w-8 text-[#17833d]" />
-                <div>
-                  <div className="text-xs font-black uppercase tracking-[0.25em] text-[#17833d]">
-                    Reservación creada
-                  </div>
-                  <div className="mt-1 text-3xl font-black text-[#103820]">
-                    {createdReservation.code}
+            <section className="overflow-hidden rounded-[32px] border border-[#17833d]/10 bg-white shadow-[0_16px_40px_rgba(21,32,24,0.08)]">
+              <div className="bg-[#07150d] p-6 text-white">
+                <div className="flex items-center gap-3">
+                  <CheckCircle2 className="h-8 w-8 text-[#38a45b]" />
+                  <div>
+                    <div className="text-xs font-black uppercase tracking-[0.25em] text-white/60">
+                      Ticket de reservación
+                    </div>
+                    <div className="mt-1 text-3xl font-black">
+                      {createdReservation.code}
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-5 space-y-3 text-sm">
-                <div className="flex items-center justify-between">
-                  <span className="text-[#728076]">Cliente</span>
-                  <span className="font-black">
-                    {createdReservation.customer}
-                  </span>
+              <div className="p-6">
+                <div className="grid gap-5 md:grid-cols-[1fr_150px]">
+                  <div className="space-y-3 text-sm">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[#728076]">Cliente</span>
+                      <span className="font-black">{createdReservation.customer}</span>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <span className="text-[#728076]">Bahía</span>
+                      <span className="font-black">{createdReservation.bay}</span>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <span className="text-[#728076]">Fecha</span>
+                      <span className="font-black">{date}</span>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <span className="text-[#728076]">Hora</span>
+                      <span className="font-black">{startTime}</span>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <span className="text-[#728076]">Total</span>
+                      <span className="font-black">${createdReservation.totalAmount}</span>
+                    </div>
+                  </div>
+
+                  <div className="rounded-2xl border border-black/10 bg-white p-3 text-center">
+                    <img
+                      src={qrUrl}
+                      alt="QR de reservación"
+                      className="mx-auto h-32 w-32"
+                    />
+                    <div className="mt-2 flex items-center justify-center gap-1 text-xs font-black uppercase text-[#17833d]">
+                      <QrCode className="h-3 w-3" />
+                      QR Reserva
+                    </div>
+                  </div>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <span className="text-[#728076]">Bahía</span>
-                  <span className="font-black">{createdReservation.bay}</span>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <span className="text-[#728076]">Estatus</span>
-                  <span className="font-black">{createdReservation.status}</span>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <span className="text-[#728076]">Total</span>
-                  <span className="font-black">
-                    ${createdReservation.totalAmount}
-                  </span>
-                </div>
+                <a
+                  href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-5 py-4 text-sm font-black uppercase text-white shadow-xl transition hover:scale-[1.02] hover:bg-[#20ba5a]"
+                >
+                  <MessageCircle className="h-5 w-5" />
+                  Enviar por WhatsApp
+                </a>
               </div>
-
-              <a
-                href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-5 py-4 text-sm font-black uppercase text-white shadow-xl transition hover:scale-[1.02] hover:bg-[#20ba5a]"
-              >
-                <MessageCircle className="h-5 w-5" />
-                Enviar por WhatsApp
-              </a>
             </section>
           ) : null}
         </aside>
