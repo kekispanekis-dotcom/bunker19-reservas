@@ -22,6 +22,7 @@ export default function HomePage() {
               <div className="text-3xl font-black tracking-[0.18em]">
                 BUNKER <span className="text-[#38a45b]">19</span>
               </div>
+
               <div className="text-xs font-bold uppercase tracking-[0.35em] text-white/65">
                 Golf Social Club
               </div>
@@ -69,10 +70,10 @@ export default function HomePage() {
                 </Link>
 
                 <a
-                  href={`https://wa.me/526561101644?text=${whatsappMessage}`}
+                  href={`https://wa.me/5216560000000?text=${whatsappMessage}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-xl border border-white/25 bg-white/10 px-8 py-4 text-base font-bold uppercase text-white backdrop-blur transition hover:scale-[1.03] hover:bg-white/20"
+                  className="rounded-xl border border-white/25 bg-[#25D366] px-8 py-4 text-base font-bold uppercase text-white shadow-xl transition hover:scale-[1.03] hover:bg-[#20ba5a]"
                 >
                   WhatsApp
                 </a>
@@ -193,41 +194,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="eventos" className="mx-auto max-w-7xl px-6 pb-24 md:pb-10">
-        <div
-          className="overflow-hidden rounded-[30px] bg-[#08140d] p-8 text-white shadow-2xl md:p-12"
-          style={{
-            backgroundImage:
-              "linear-gradient(90deg, rgba(3,12,8,.96), rgba(3,12,8,.75)), url('https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=1800&auto=format&fit=crop')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        >
-          <div className="max-w-2xl">
-            <div className="inline-flex rounded-xl bg-[#1f7a3f]/70 px-4 py-2 text-xs font-black uppercase tracking-[0.2em]">
-              Vive el deporte
-            </div>
-
-            <h2 className="mt-6 text-4xl font-black uppercase leading-tight md:text-5xl">
-              Vive el juego
-              <br />
-              en <span className="text-[#2fa84f]">Bunker 19</span>
-            </h2>
-
-            <p className="mt-5 text-white/80">
-              Pantallas, ambiente, comida, drinks y bahías para armar el plan completo.
-            </p>
-
-            <Link
-              href="/reserve"
-              className="mt-7 inline-flex rounded-xl bg-[#1f7a3f] px-7 py-4 font-black uppercase text-white transition hover:scale-[1.03] hover:bg-[#1f9a4b]"
-            >
-              Reservar 📅
-            </Link>
-          </div>
-        </div>
-      </section>
-
       <footer className="bg-[#07150d] px-6 py-8 text-white">
         <div className="mx-auto grid max-w-7xl gap-6 text-sm md:grid-cols-3">
           <div>
@@ -260,10 +226,10 @@ export default function HomePage() {
       </footer>
 
       <a
-        href={`https://wa.me/526561101644?text=${whatsappMessage}`}
+        href={`https://wa.me/5216560000000?text=${whatsappMessage}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-24 right-5 z-50 hidden rounded-full bg-[#25D366] px-5 py-4 text-sm font-black uppercase text-white shadow-2xl transition hover:scale-105 md:inline-flex"
+        className="fixed bottom-24 right-5 z-50 hidden items-center gap-2 rounded-full bg-[#25D366] px-6 py-4 text-sm font-black uppercase text-white shadow-[0_20px_45px_rgba(37,211,102,0.45)] transition hover:scale-105 hover:bg-[#20ba5a] md:flex"
       >
         WhatsApp
       </a>
