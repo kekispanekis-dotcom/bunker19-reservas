@@ -38,11 +38,11 @@ const bayImages: Record<string, string> = {
 };
 
 const bayMap = [
-  { code: "B1", label: "Bay 1", area: "Standard" },
-  { code: "B2", label: "Bay 2", area: "Standard" },
-  { code: "B3", label: "Bay 3", area: "Standard" },
-  { code: "B4", label: "Bay 4", area: "Standard" },
-  { code: "B19", label: "Bunker 19", area: "VIP" },
+  { code: "B1", label: "Bay 1" },
+  { code: "B2", label: "Bay 2" },
+  { code: "B3", label: "Bay 3" },
+  { code: "B4", label: "Bay 4" },
+  { code: "B19", label: "Bunker 19 VIP" },
 ] as const;
 
 function getBayAccent(type: "standard" | "vip") {
@@ -101,6 +101,13 @@ export default function ReservePage() {
     () => new Set(availableBays.map((bay) => bay.code)),
     [availableBays]
   );
+
+  const selectedSlotRange = useMemo(() => {
+    const startIndex = timeSlots.indexOf(startTime);
+    const duration = Number(durationHours || 1);
+    if (startIndex < 0) return new Set<string>();
+    return new Set(timeSlots.slice(startIndex, startIndex + duration));
+  }, [startTime, durationHours]);
 
   const qrText = createdReservation
     ? `BUNKER 19 | Reserva: ${createdReservation.code} | Cliente: ${createdReservation.customer} | Bahía: ${createdReservation.bay} | Fecha: ${date} | Hora: ${startTime} | Total: $${createdReservation.totalAmount}`
@@ -323,6 +330,54 @@ export default function ReservePage() {
                 ))}
               </select>
             </div>
+
+            <section className="mt-6 rounded-[28px] border border-black/5 bg-[#07150d] p-5 text-white">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <div className="text-xs font-black uppercase tracking-[0.22em] text-white/45">
+                    Scheduler visual
+                  </div>
+                  <h3 className="mt-1 text-2xl font-black uppercase">
+                    Horario seleccionado
+                  </h3>
+                </div>
+
+                <div className="rounded-full bg-[#17833d] px-4 py-2 text-xs font-black uppercase">
+                  {startTime} · {durationHours} h
+                </div>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7">
+                {timeSlots.map((slot) => {
+                  const isSelectedSlot = selectedSlotRange.has(slot);
+                  const isStart = slot === startTime;
+
+                  return (
+                    <button
+                      key={slot}
+                      type="button"
+                      onClick={() => {
+                        setStartTime(slot);
+                        setAvailableBays([]);
+                        setSelectedBay(null);
+                        setCreatedReservation(null);
+                        setMessage("Actualizaste el horario. Consulta disponibilidad nuevamente.");
+                      }}
+                      className={`rounded-2xl border px-3 py-4 text-left transition hover:-translate-y-1 ${
+                        isSelectedSlot
+                          ? "border-[#38a45b] bg-[#17833d] shadow-[0_12px_28px_rgba(31,154,75,0.25)]"
+                          : "border-white/10 bg-white/10 hover:bg-white/15"
+                      }`}
+                    >
+                      <div className="text-lg font-black">{slot}</div>
+                      <div className="mt-1 text-[10px] font-black uppercase tracking-wide text-white/60">
+                        {isStart ? "Inicio" : isSelectedSlot ? "Reservado" : "Disponible"}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
 
             <button onClick={checkAvailability} className="mt-6 rounded-2xl bg-[#17833d] px-8 py-4 text-sm font-black uppercase text-white shadow-xl transition hover:scale-[1.02] hover:bg-[#1f9a4b]">
               Ver disponibilidad →
