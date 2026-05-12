@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "../../../../../lib/prisma";
 
 const timeSlots = [
   "10:00",
@@ -20,7 +20,6 @@ const timeSlots = [
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-
     const { date } = body;
 
     if (!date) {
@@ -30,11 +29,16 @@ export async function POST(req: Request) {
       );
     }
 
+    const selectedDate = new Date(date);
+    const nextDate = new Date(selectedDate);
+
+    nextDate.setDate(selectedDate.getDate() + 1);
+
     const reservations = await prisma.reservation.findMany({
       where: {
-        date: new Date(date),
-        status: {
-          not: "CANCELLED",
+        reservationDate: {
+          gte: selectedDate,
+          lt: nextDate,
         },
       },
       include: {
@@ -43,29 +47,16 @@ export async function POST(req: Request) {
     });
 
     const schedule = [
-      {
-        code: "B1",
-        occupied: [] as string[],
-      },
-      {
-        code: "B2",
-        occupied: [] as string[],
-      },
-      {
-        code: "B3",
-        occupied: [] as string[],
-      },
-      {
-        code: "B4",
-        occupied: [] as string[],
-      },
-      {
-        code: "B19",
-        occupied: [] as string[],
-      },
+      { code: "B1", occupied: [] as string[] },
+      { code: "B2", occupied: [] as string[] },
+      { code: "B3", occupied: [] as string[] },
+      { code: "B4", occupied: [] as string[] },
+      { code: "B19", occupied: [] as string[] },
     ];
 
     for (const reservation of reservations) {
+      if (reservation.status === "CANCELLED") continue;
+
       const startIndex = timeSlots.indexOf(reservation.startTime);
 
       if (startIndex === -1) continue;
@@ -75,12 +66,12 @@ export async function POST(req: Request) {
 
         if (!slot) continue;
 
-        const bay = schedule.find(
-          (b) => b.code === reservation.bay.code
+        const baySchedule = schedule.find(
+          (item) => item.code === reservation.bay.code
         );
 
-        if (bay) {
-          bay.occupied.push(slot);
+        if (baySchedule) {
+          baySchedule.occupied.push(slot);
         }
       }
     }
@@ -90,7 +81,7 @@ export async function POST(req: Request) {
       schedule,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Schedule error:", error);
 
     return NextResponse.json(
       { error: "Error obteniendo horarios" },
