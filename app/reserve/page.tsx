@@ -12,6 +12,8 @@ import {
   MessageCircle,
   CheckCircle2,
   QrCode,
+  Sparkles,
+  Flame,
 } from "lucide-react";
 
 type AvailableBay = {
@@ -25,8 +27,19 @@ type AvailableBay = {
 const whatsappNumber = "5216561101644";
 
 const timeSlots = [
-  "10:00", "11:00", "12:00", "13:00", "14:00", "15:00",
-  "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00",
+  "10:00",
+  "11:00",
+  "12:00",
+  "13:00",
+  "14:00",
+  "15:00",
+  "16:00",
+  "17:00",
+  "18:00",
+  "19:00",
+  "20:00",
+  "21:00",
+  "22:00",
 ];
 
 const bayImages: Record<string, string> = {
@@ -50,16 +63,18 @@ function getBayAccent(type: "standard" | "vip") {
     return {
       badge: "bg-amber-100 text-amber-800 border-amber-200",
       border: "border-amber-300",
-      glow: "shadow-[0_22px_65px_rgba(217,119,6,0.22)]",
+      glow: "shadow-[0_25px_70px_rgba(217,119,6,0.28)]",
       label: "VIP",
+      button: "bg-amber-500 hover:bg-amber-600",
     };
   }
 
   return {
     badge: "bg-emerald-100 text-emerald-800 border-emerald-200",
     border: "border-emerald-200",
-    glow: "shadow-[0_22px_65px_rgba(22,163,74,0.14)]",
+    glow: "shadow-[0_25px_70px_rgba(22,163,74,0.18)]",
     label: "STANDARD",
+    button: "bg-[#17833d] hover:bg-[#1f9a4b]",
   };
 }
 
@@ -83,6 +98,7 @@ export default function ReservePage() {
 
   const [message, setMessage] = useState("");
   const [saving, setSaving] = useState(false);
+  const [loadingAvailability, setLoadingAvailability] = useState(false);
 
   const [createdReservation, setCreatedReservation] = useState<null | {
     code: string;
@@ -102,15 +118,8 @@ export default function ReservePage() {
     [availableBays]
   );
 
-  const selectedSlotRange = useMemo(() => {
-    const startIndex = timeSlots.indexOf(startTime);
-    const duration = Number(durationHours || 1);
-    if (startIndex < 0) return new Set<string>();
-    return new Set(timeSlots.slice(startIndex, startIndex + duration));
-  }, [startTime, durationHours]);
-
   const qrText = createdReservation
-    ? `BUNKER 19 | Reserva: ${createdReservation.code} | Cliente: ${createdReservation.customer} | Bahía: ${createdReservation.bay} | Fecha: ${date} | Hora: ${startTime} | Total: $${createdReservation.totalAmount}`
+    ? `BUNKER 19 | Reserva: ${createdReservation.code}`
     : "BUNKER 19";
 
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(
@@ -119,11 +128,13 @@ export default function ReservePage() {
 
   const whatsappMessage = encodeURIComponent(
     createdReservation
-      ? `Hola, tengo una reservación en Bunker 19.%0A%0ACódigo: ${createdReservation.code}%0ACliente: ${createdReservation.customer}%0ABahía: ${createdReservation.bay}%0AFecha: ${date}%0AHora: ${startTime}%0ADuración: ${durationHours} hora(s)%0APersonas: ${guestCount}%0ATotal: $${createdReservation.totalAmount}`
+      ? `Hola, tengo una reservación en Bunker 19.%0ACódigo: ${createdReservation.code}`
       : "Hola, quiero información para reservar una bahía en Bunker 19."
   );
 
   async function checkAvailability() {
+    setLoadingAvailability(true);
+
     setMessage("");
     setCreatedReservation(null);
     setSelectedBay(null);
@@ -142,6 +153,8 @@ export default function ReservePage() {
     });
 
     const result = await res.json();
+
+    setLoadingAvailability(false);
 
     if (!res.ok) {
       setMessage(result.error || "No se pudo consultar disponibilidad.");
@@ -229,9 +242,9 @@ export default function ReservePage() {
 
     if (!bay) {
       if (availableBays.length === 0) {
-        setMessage("Primero consulta disponibilidad para seleccionar una bahía.");
+        setMessage("Primero consulta disponibilidad.");
       } else {
-        setMessage("Esa bahía no está disponible en el horario seleccionado.");
+        setMessage("Esa bahía no está disponible.");
       }
       return;
     }
@@ -246,14 +259,17 @@ export default function ReservePage() {
         className="relative overflow-hidden"
         style={{
           backgroundImage:
-            "linear-gradient(90deg, rgba(0,0,0,.90), rgba(0,0,0,.60), rgba(0,0,0,.30)), url('https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=1800&auto=format&fit=crop')",
+            "linear-gradient(90deg, rgba(0,0,0,.92), rgba(0,0,0,.60), rgba(0,0,0,.25)), url('https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=1800&auto=format&fit=crop')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        <div className="mx-auto max-w-7xl px-6 py-14">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(56,164,91,.18),transparent_35%)]" />
+
+        <div className="relative mx-auto max-w-7xl px-6 py-14">
           <div className="max-w-3xl text-white">
-            <div className="inline-flex rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.25em] backdrop-blur">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.25em] backdrop-blur">
+              <Sparkles className="h-4 w-4 text-[#38a45b]" />
               Bunker 19 · Reservaciones
             </div>
 
@@ -267,128 +283,97 @@ export default function ReservePage() {
               Simuladores profesionales, ambiente premium, comida, drinks y la
               mejor experiencia indoor de golf.
             </p>
-
-            <div className="mt-10 grid max-w-2xl gap-4 sm:grid-cols-3">
-              {[
-                ["5", "Bahías"],
-                ["B19", "VIP"],
-                ["100%", "Indoor"],
-              ].map(([number, label]) => (
-                <div
-                  key={label}
-                  className="rounded-2xl border border-white/10 bg-white/10 px-5 py-4 backdrop-blur"
-                >
-                  <div className="text-3xl font-black">{number}</div>
-                  <div className="text-xs font-black uppercase tracking-wide text-white/70">
-                    {label}
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
 
       <div className="mx-auto grid max-w-7xl gap-6 px-6 py-8 xl:grid-cols-[1.2fr_0.8fr]">
         <div className="space-y-6">
-          <section className="rounded-[32px] bg-white p-6 shadow-[0_16px_40px_rgba(21,32,24,0.08)]">
+          <section className="rounded-[32px] bg-white p-6 shadow-[0_16px_40px_rgba(21,32,24,0.08)] transition hover:shadow-[0_22px_55px_rgba(21,32,24,0.12)]">
             <div className="flex items-center gap-3">
               <Trophy className="h-7 w-7 text-[#17833d]" />
+
               <h2 className="text-3xl font-black uppercase text-[#103820]">
                 Datos de la reserva
               </h2>
             </div>
 
             <div className="mt-6 grid gap-4 md:grid-cols-3">
-              <input value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="Nombre completo" className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition focus:border-[#17833d]" />
-              <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Teléfono" className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition focus:border-[#17833d]" />
-              <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Correo" className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition focus:border-[#17833d]" />
+              <input
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="Nombre completo"
+                className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition duration-300 focus:scale-[1.01] focus:border-[#17833d]"
+              />
+
+              <input
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="Teléfono"
+                className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition duration-300 focus:scale-[1.01] focus:border-[#17833d]"
+              />
+
+              <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Correo"
+                className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition duration-300 focus:scale-[1.01] focus:border-[#17833d]"
+              />
             </div>
 
             <div className="mt-5 grid gap-4 md:grid-cols-4">
               <div className="relative">
-                <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="w-full rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition focus:border-[#17833d]" />
+                <input
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  className="w-full rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition duration-300 focus:border-[#17833d]"
+                />
+
                 <CalendarDays className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#17833d]" />
               </div>
 
-              <select value={startTime} onChange={(e) => setStartTime(e.target.value)} className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition focus:border-[#17833d]">
+              <select
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+                className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition duration-300 focus:border-[#17833d]"
+              >
                 {timeSlots.map((slot) => (
-                  <option key={slot} value={slot}>{slot}</option>
+                  <option key={slot}>{slot}</option>
                 ))}
               </select>
 
-              <select value={durationHours} onChange={(e) => setDurationHours(e.target.value)} className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition focus:border-[#17833d]">
+              <select
+                value={durationHours}
+                onChange={(e) => setDurationHours(e.target.value)}
+                className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition duration-300 focus:border-[#17833d]"
+              >
                 <option value="1">1 hora</option>
                 <option value="2">2 horas</option>
                 <option value="3">3 horas</option>
                 <option value="4">4 horas</option>
               </select>
 
-              <select value={guestCount} onChange={(e) => setGuestCount(e.target.value)} className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition focus:border-[#17833d]">
+              <select
+                value={guestCount}
+                onChange={(e) => setGuestCount(e.target.value)}
+                className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition duration-300 focus:border-[#17833d]"
+              >
                 {["2", "3", "4", "5", "6", "8", "10"].map((qty) => (
-                  <option key={qty} value={qty}>{qty} personas</option>
+                  <option key={qty}>{qty} personas</option>
                 ))}
               </select>
             </div>
 
-            <section className="mt-6 rounded-[28px] border border-black/5 bg-[#07150d] p-5 text-white">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <div className="text-xs font-black uppercase tracking-[0.22em] text-white/45">
-                    Scheduler visual
-                  </div>
-                  <h3 className="mt-1 text-2xl font-black uppercase">
-                    Horario seleccionado
-                  </h3>
-                </div>
-
-                <div className="rounded-full bg-[#17833d] px-4 py-2 text-xs font-black uppercase">
-                  {startTime} · {durationHours} h
-                </div>
-              </div>
-
-              <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7">
-                {timeSlots.map((slot) => {
-                  const isSelectedSlot = selectedSlotRange.has(slot);
-                  const isStart = slot === startTime;
-
-                  return (
-                    <button
-                      key={slot}
-                      type="button"
-                      onClick={() => {
-                        setStartTime(slot);
-                        setAvailableBays([]);
-                        setSelectedBay(null);
-                        setCreatedReservation(null);
-                        setMessage("Actualizaste el horario. Consulta disponibilidad nuevamente.");
-                      }}
-                      className={`rounded-2xl border px-3 py-4 text-left transition hover:-translate-y-1 ${
-                        isSelectedSlot
-                          ? "border-[#38a45b] bg-[#17833d] shadow-[0_12px_28px_rgba(31,154,75,0.25)]"
-                          : "border-white/10 bg-white/10 hover:bg-white/15"
-                      }`}
-                    >
-                      <div className="text-lg font-black">{slot}</div>
-                      <div className="mt-1 text-[10px] font-black uppercase tracking-wide text-white/60">
-                        {isStart ? "Inicio" : isSelectedSlot ? "Reservado" : "Disponible"}
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
-
-            <button onClick={checkAvailability} className="mt-6 rounded-2xl bg-[#17833d] px-8 py-4 text-sm font-black uppercase text-white shadow-xl transition hover:scale-[1.02] hover:bg-[#1f9a4b]">
-              Ver disponibilidad →
+            <button
+              onClick={checkAvailability}
+              className="mt-6 rounded-2xl bg-[#17833d] px-8 py-4 text-sm font-black uppercase text-white shadow-[0_18px_40px_rgba(31,154,75,0.25)] transition duration-300 hover:scale-[1.03] hover:bg-[#1f9a4b]"
+            >
+              {loadingAvailability
+                ? "Buscando disponibilidad..."
+                : "Ver disponibilidad →"}
             </button>
           </section>
-
-          {message ? (
-            <div className="rounded-2xl border border-[#17833d]/10 bg-white p-5 text-sm font-semibold text-[#48604f] shadow">
-              {message}
-            </div>
-          ) : null}
 
           <section className="rounded-[32px] bg-[#07150d] p-6 text-white shadow-[0_20px_55px_rgba(21,32,24,0.14)]">
             <div className="flex flex-wrap items-end justify-between gap-4">
@@ -396,6 +381,7 @@ export default function ReservePage() {
                 <div className="text-xs font-black uppercase tracking-[0.25em] text-white/45">
                   Plano visual
                 </div>
+
                 <h2 className="mt-2 text-3xl font-black uppercase">
                   Selecciona tu bahía
                 </h2>
@@ -405,9 +391,11 @@ export default function ReservePage() {
                 <div className="rounded-full bg-[#17833d] px-3 py-2 text-white">
                   Disponible
                 </div>
+
                 <div className="rounded-full bg-white/15 px-3 py-2 text-white/70">
                   No disponible
                 </div>
+
                 <div className="rounded-full bg-amber-500 px-3 py-2 text-white">
                   VIP
                 </div>
@@ -425,10 +413,12 @@ export default function ReservePage() {
                       <button
                         key={bay.code}
                         type="button"
-                        onClick={() => selectBayFromMap(bay.code)}
-                        className={`min-h-[120px] rounded-[24px] border p-5 text-left transition ${
+                        onClick={() =>
+                          selectBayFromMap(bay.code as AvailableBay["code"])
+                        }
+                        className={`min-h-[120px] rounded-[24px] border p-5 text-left transition-all duration-300 ${
                           isSelected
-                            ? "border-[#38a45b] bg-[#17833d] shadow-[0_18px_40px_rgba(31,154,75,0.25)]"
+                            ? "scale-[1.03] border-[#38a45b] bg-[#17833d] shadow-[0_20px_45px_rgba(31,154,75,0.35)]"
                             : isAvailable
                             ? "border-white/10 bg-white/10 hover:-translate-y-1 hover:bg-[#17833d]"
                             : "border-white/5 bg-white/5 opacity-55"
@@ -436,6 +426,7 @@ export default function ReservePage() {
                       >
                         <div className="flex items-center justify-between">
                           <div className="text-4xl font-black">{bay.code}</div>
+
                           <div
                             className={`rounded-full px-3 py-1 text-xs font-black uppercase ${
                               isAvailable
@@ -446,6 +437,7 @@ export default function ReservePage() {
                             {isAvailable ? "Libre" : "No disponible"}
                           </div>
                         </div>
+
                         <div className="mt-4 text-sm font-bold uppercase tracking-wide text-white/65">
                           {bay.label}
                         </div>
@@ -457,15 +449,16 @@ export default function ReservePage() {
                 <button
                   type="button"
                   onClick={() => selectBayFromMap("B19")}
-                  className={`min-h-[260px] rounded-[28px] border p-6 text-left transition ${
+                  className={`min-h-[260px] rounded-[28px] border p-6 text-left transition-all duration-300 ${
                     selectedBay?.code === "B19"
-                      ? "border-amber-300 bg-amber-500 shadow-[0_20px_55px_rgba(217,119,6,0.25)]"
+                      ? "scale-[1.03] border-amber-300 bg-amber-500 shadow-[0_25px_60px_rgba(217,119,6,0.35)]"
                       : availableCodes.has("B19")
                       ? "border-amber-300/30 bg-amber-500/20 hover:-translate-y-1 hover:bg-amber-500"
                       : "border-white/5 bg-white/5 opacity-55"
                   }`}
                 >
-                  <div className="rounded-full bg-black/25 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-white/75">
+                  <div className="inline-flex items-center gap-2 rounded-full bg-black/25 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-white/75">
+                    <Flame className="h-4 w-4" />
                     VIP Lounge
                   </div>
 
@@ -478,23 +471,34 @@ export default function ReservePage() {
                   <div className="mt-8 rounded-2xl bg-black/20 p-4 text-sm font-bold text-white/80">
                     Experiencia premium para grupos, eventos y reservaciones especiales.
                   </div>
-
-                  <div className="mt-4 inline-flex rounded-full bg-white/15 px-3 py-2 text-xs font-black uppercase">
-                    {availableCodes.has("B19") ? "Disponible" : "No disponible"}
-                  </div>
                 </button>
-              </div>
-
-              <div className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-4 text-xs font-bold uppercase tracking-[0.18em] text-white/45">
-                Entrada / recepción · Área de simuladores · Bunker 19
               </div>
             </div>
           </section>
 
+          {message ? (
+            <div className="rounded-2xl border border-[#17833d]/10 bg-white p-5 text-sm font-semibold text-[#48604f] shadow">
+              {message}
+            </div>
+          ) : null}
+
+          {loadingAvailability ? (
+            <div className="grid gap-5">
+              {[1, 2].map((item) => (
+                <div
+                  key={item}
+                  className="h-[230px] animate-pulse rounded-[32px] bg-white"
+                />
+              ))}
+            </div>
+          ) : null}
+
           <section className="space-y-5">
-            {availableBays.map((bay) => {
+            {availableBays.map((bay, index) => {
               const isSelected = selectedBay?.code === bay.code;
+
               const accent = getBayAccent(bay.type);
+
               const image = bayImages[bay.code] || bayImages.B1;
 
               return (
@@ -502,37 +506,58 @@ export default function ReservePage() {
                   key={bay.code}
                   type="button"
                   onClick={() => setSelectedBay(bay)}
-                  className={`group relative w-full overflow-hidden rounded-[32px] border bg-white p-0 text-left transition ${
+                  className={`group relative w-full overflow-hidden rounded-[32px] border bg-white p-0 text-left transition-all duration-300 ${
                     isSelected
-                      ? `${accent.border} ${accent.glow}`
-                      : "border-black/5 shadow-[0_14px_35px_rgba(21,32,24,0.06)] hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(21,32,24,0.10)]"
+                      ? `${accent.border} ${accent.glow} scale-[1.01]`
+                      : "border-black/5 shadow-[0_14px_35px_rgba(21,32,24,0.06)] hover:-translate-y-1 hover:shadow-[0_25px_60px_rgba(21,32,24,0.14)]"
                   }`}
                 >
+                  <div className="absolute right-5 top-5 z-20 flex gap-2">
+                    {index === 0 && (
+                      <div className="rounded-full bg-[#17833d] px-3 py-2 text-xs font-black uppercase text-white shadow-xl">
+                        Most Popular
+                      </div>
+                    )}
+
+                    {bay.type === "vip" && (
+                      <div className="rounded-full bg-amber-500 px-3 py-2 text-xs font-black uppercase text-white shadow-xl">
+                        VIP Experience
+                      </div>
+                    )}
+                  </div>
+
                   <div className="grid md:grid-cols-[260px_1fr_auto]">
                     <div
-                      className="min-h-[210px] bg-cover bg-center"
+                      className="relative min-h-[230px] overflow-hidden bg-cover bg-center"
                       style={{
                         backgroundImage: `linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.45)), url('${image}')`,
                       }}
                     >
-                      <div className="flex h-full items-end p-5">
+                      <div className="absolute inset-0 transition duration-500 group-hover:scale-110 bg-cover bg-center" />
+
+                      <div className="relative flex h-full items-end p-5">
                         <div className="rounded-2xl bg-black/55 px-4 py-3 text-white backdrop-blur">
                           <div className="text-xs font-black uppercase tracking-[0.18em] text-white/65">
                             Bahía
                           </div>
-                          <div className="text-4xl font-black">{bay.code}</div>
+
+                          <div className="text-4xl font-black">
+                            {bay.code}
+                          </div>
                         </div>
                       </div>
                     </div>
 
                     <div className="p-6">
                       <div className="flex flex-wrap items-center gap-3">
-                        <div className={`rounded-full border px-3 py-1 text-xs font-black uppercase tracking-[0.18em] ${accent.badge}`}>
+                        <div
+                          className={`rounded-full border px-3 py-1 text-xs font-black uppercase tracking-[0.18em] ${accent.badge}`}
+                        >
                           {accent.label}
                         </div>
 
                         {isSelected ? (
-                          <div className="rounded-full bg-[#17833d] px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-white">
+                          <div className="rounded-full bg-[#17833d] px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-white shadow-lg">
                             Seleccionada
                           </div>
                         ) : null}
@@ -561,7 +586,7 @@ export default function ReservePage() {
                     </div>
 
                     <div className="p-6 md:min-w-[220px]">
-                      <div className="rounded-[28px] bg-[#f7f7f4] p-5 text-left md:text-right">
+                      <div className="rounded-[28px] bg-[#f7f7f4] p-5 text-left transition duration-300 group-hover:bg-[#eef7eb] md:text-right">
                         <div className="text-xs font-black uppercase tracking-[0.18em] text-[#7a887e]">
                           Tarifa
                         </div>
@@ -570,11 +595,16 @@ export default function ReservePage() {
                           ${bay.price}
                         </div>
 
-                        <div className="text-sm text-[#728076]">por hora</div>
+                        <div className="text-sm text-[#728076]">
+                          por hora
+                        </div>
 
                         <div className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[#17833d]">
                           <Star className="h-4 w-4" />
-                          {bay.type === "vip" ? "Experiencia premium" : "Ideal para grupos"}
+
+                          {bay.type === "vip"
+                            ? "Experiencia premium"
+                            : "Ideal para grupos"}
                         </div>
                       </div>
                     </div>
@@ -586,9 +616,10 @@ export default function ReservePage() {
         </div>
 
         <aside className="space-y-6">
-          <section className="sticky top-6 rounded-[32px] bg-white p-6 shadow-[0_20px_55px_rgba(21,32,24,0.12)]">
+          <section className="sticky top-6 rounded-[32px] bg-white p-6 shadow-[0_20px_55px_rgba(21,32,24,0.12)] transition hover:shadow-[0_28px_65px_rgba(21,32,24,0.16)]">
             <div className="flex items-center gap-3">
               <ShieldCheck className="h-7 w-7 text-[#17833d]" />
+
               <h2 className="text-3xl font-black uppercase text-[#103820]">
                 Resumen
               </h2>
@@ -603,9 +634,17 @@ export default function ReservePage() {
                 ["Personas", guestCount],
                 ["Bahía", selectedBay?.code || "--"],
               ].map(([label, value]) => (
-                <div key={label} className="flex items-center justify-between border-b border-black/5 pb-3">
-                  <span className="text-sm text-[#728076]">{label}</span>
-                  <span className="font-black text-[#103820]">{value}</span>
+                <div
+                  key={label}
+                  className="flex items-center justify-between border-b border-black/5 pb-3"
+                >
+                  <span className="text-sm text-[#728076]">
+                    {label}
+                  </span>
+
+                  <span className="font-black text-[#103820]">
+                    {value}
+                  </span>
                 </div>
               ))}
             </div>
@@ -623,9 +662,11 @@ export default function ReservePage() {
             <button
               onClick={createReservation}
               disabled={!selectedBay || saving}
-              className="mt-6 w-full rounded-2xl bg-[#17833d] px-7 py-5 text-sm font-black uppercase text-white shadow-xl transition hover:scale-[1.02] hover:bg-[#1f9a4b] disabled:cursor-not-allowed disabled:opacity-40"
+              className="mt-6 w-full rounded-2xl bg-[#17833d] px-7 py-5 text-sm font-black uppercase text-white shadow-[0_20px_45px_rgba(31,154,75,0.25)] transition duration-300 hover:scale-[1.02] hover:bg-[#1f9a4b] disabled:cursor-not-allowed disabled:opacity-40"
             >
-              {saving ? "Guardando..." : "Confirmar reservación"}
+              {saving
+                ? "Guardando..."
+                : "Confirmar reservación"}
             </button>
           </section>
 
@@ -634,10 +675,12 @@ export default function ReservePage() {
               <div className="bg-[#07150d] p-6 text-white">
                 <div className="flex items-center gap-3">
                   <CheckCircle2 className="h-8 w-8 text-[#38a45b]" />
+
                   <div>
                     <div className="text-xs font-black uppercase tracking-[0.25em] text-white/60">
                       Ticket de reservación
                     </div>
+
                     <div className="mt-1 text-3xl font-black">
                       {createdReservation.code}
                     </div>
@@ -649,28 +692,33 @@ export default function ReservePage() {
                 <div className="grid gap-5 md:grid-cols-[1fr_150px]">
                   <div className="space-y-3 text-sm">
                     <div className="flex items-center justify-between">
-                      <span className="text-[#728076]">Cliente</span>
-                      <span className="font-black">{createdReservation.customer}</span>
+                      <span className="text-[#728076]">
+                        Cliente
+                      </span>
+
+                      <span className="font-black">
+                        {createdReservation.customer}
+                      </span>
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <span className="text-[#728076]">Bahía</span>
-                      <span className="font-black">{createdReservation.bay}</span>
+                      <span className="text-[#728076]">
+                        Bahía
+                      </span>
+
+                      <span className="font-black">
+                        {createdReservation.bay}
+                      </span>
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <span className="text-[#728076]">Fecha</span>
-                      <span className="font-black">{date}</span>
-                    </div>
+                      <span className="text-[#728076]">
+                        Total
+                      </span>
 
-                    <div className="flex items-center justify-between">
-                      <span className="text-[#728076]">Hora</span>
-                      <span className="font-black">{startTime}</span>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <span className="text-[#728076]">Total</span>
-                      <span className="font-black">${createdReservation.totalAmount}</span>
+                      <span className="font-black">
+                        ${createdReservation.totalAmount}
+                      </span>
                     </div>
                   </div>
 
@@ -680,6 +728,7 @@ export default function ReservePage() {
                       alt="QR de reservación"
                       className="mx-auto h-32 w-32"
                     />
+
                     <div className="mt-2 flex items-center justify-center gap-1 text-xs font-black uppercase text-[#17833d]">
                       <QrCode className="h-3 w-3" />
                       QR Reserva
@@ -691,7 +740,7 @@ export default function ReservePage() {
                   href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-5 py-4 text-sm font-black uppercase text-white shadow-xl transition hover:scale-[1.02] hover:bg-[#20ba5a]"
+                  className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-5 py-4 text-sm font-black uppercase text-white shadow-xl transition duration-300 hover:scale-[1.02] hover:bg-[#20ba5a]"
                 >
                   <MessageCircle className="h-5 w-5" />
                   Enviar por WhatsApp
