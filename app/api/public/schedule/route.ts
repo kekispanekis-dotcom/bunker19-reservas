@@ -31,7 +31,6 @@ export async function POST(req: Request) {
 
     const selectedDate = new Date(date);
     const nextDate = new Date(selectedDate);
-
     nextDate.setDate(selectedDate.getDate() + 1);
 
     const reservations = await prisma.reservation.findMany({
@@ -55,8 +54,6 @@ export async function POST(req: Request) {
     ];
 
     for (const reservation of reservations) {
-      if (reservation.status === "CANCELLED") continue;
-
       const startIndex = timeSlots.indexOf(reservation.startTime);
 
       if (startIndex === -1) continue;
