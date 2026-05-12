@@ -24,6 +24,11 @@ type AvailableBay = {
   price: number;
 };
 
+type ScheduleBay = {
+  code: string;
+  occupied: string[];
+};
+
 const whatsappNumber = "5216561101644";
 
 const timeSlots = [
@@ -94,6 +99,7 @@ export default function ReservePage() {
   const [email, setEmail] = useState("");
 
   const [availableBays, setAvailableBays] = useState<AvailableBay[]>([]);
+  const [scheduleData, setScheduleData] = useState<ScheduleBay[]>([]);
   const [selectedBay, setSelectedBay] = useState<AvailableBay | null>(null);
 
   const [message, setMessage] = useState("");
@@ -132,9 +138,30 @@ export default function ReservePage() {
       : "Hola, quiero información para reservar una bahía en Bunker 19."
   );
 
+  async function loadSchedule() {
+    try {
+      const res = await fetch("/api/public/schedule", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          date,
+        }),
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) return;
+
+      setScheduleData(result.schedule || []);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   async function checkAvailability() {
     setLoadingAvailability(true);
-
     setMessage("");
     setCreatedReservation(null);
     setSelectedBay(null);
@@ -159,6 +186,7 @@ export default function ReservePage() {
     if (!res.ok) {
       setMessage(result.error || "No se pudo consultar disponibilidad.");
       setAvailableBays([]);
+      await loadSchedule();
       return;
     }
 
@@ -169,6 +197,8 @@ export default function ReservePage() {
     } else {
       setMessage("No hay disponibilidad para ese horario.");
     }
+
+    await loadSchedule();
   }
 
   async function createReservation() {
@@ -326,7 +356,13 @@ export default function ReservePage() {
                 <input
                   type="date"
                   value={date}
-                  onChange={(e) => setDate(e.target.value)}
+                  onChange={(e) => {
+                    setDate(e.target.value);
+                    setAvailableBays([]);
+                    setScheduleData([]);
+                    setSelectedBay(null);
+                    setCreatedReservation(null);
+                  }}
                   className="w-full rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition duration-300 focus:border-[#17833d]"
                 />
 
@@ -335,7 +371,12 @@ export default function ReservePage() {
 
               <select
                 value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
+                onChange={(e) => {
+                  setStartTime(e.target.value);
+                  setAvailableBays([]);
+                  setSelectedBay(null);
+                  setCreatedReservation(null);
+                }}
                 className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition duration-300 focus:border-[#17833d]"
               >
                 {timeSlots.map((slot) => (
@@ -345,7 +386,12 @@ export default function ReservePage() {
 
               <select
                 value={durationHours}
-                onChange={(e) => setDurationHours(e.target.value)}
+                onChange={(e) => {
+                  setDurationHours(e.target.value);
+                  setAvailableBays([]);
+                  setSelectedBay(null);
+                  setCreatedReservation(null);
+                }}
                 className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition duration-300 focus:border-[#17833d]"
               >
                 <option value="1">1 hora</option>
@@ -356,7 +402,12 @@ export default function ReservePage() {
 
               <select
                 value={guestCount}
-                onChange={(e) => setGuestCount(e.target.value)}
+                onChange={(e) => {
+                  setGuestCount(e.target.value);
+                  setAvailableBays([]);
+                  setSelectedBay(null);
+                  setCreatedReservation(null);
+                }}
                 className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition duration-300 focus:border-[#17833d]"
               >
                 {["2", "3", "4", "5", "6", "8", "10"].map((qty) => (
@@ -469,12 +520,79 @@ export default function ReservePage() {
                   </div>
 
                   <div className="mt-8 rounded-2xl bg-black/20 p-4 text-sm font-bold text-white/80">
-                    Experiencia premium para grupos, eventos y reservaciones especiales.
+                    Experiencia premium para grupos, eventos y reservaciones
+                    especiales.
                   </div>
                 </button>
               </div>
             </div>
           </section>
+
+          {scheduleData.length > 0 ? (
+            <section className="rounded-[32px] bg-white p-6 shadow-[0_16px_40px_rgba(21,32,24,0.08)]">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <div className="text-xs font-black uppercase tracking-[0.22em] text-[#17833d]">
+                    Live Schedule
+                  </div>
+
+                  <h2 className="mt-1 text-3xl font-black uppercase text-[#103820]">
+                    Disponibilidad en tiempo real
+                  </h2>
+                </div>
+
+                <div className="flex flex-wrap gap-2 text-xs font-black uppercase">
+                  <div className="rounded-full bg-[#17833d] px-3 py-2 text-white">
+                    Libre
+                  </div>
+
+                  <div className="rounded-full bg-[#d92d20] px-3 py-2 text-white">
+                    Ocupado
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 space-y-5">
+                {scheduleData.map((bay) => (
+                  <div
+                    key={bay.code}
+                    className="rounded-[28px] border border-black/5 bg-[#f7f7f4] p-5"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-3xl font-black text-[#103820]">
+                          {bay.code}
+                        </div>
+
+                        <div className="text-xs font-black uppercase tracking-[0.18em] text-[#728076]">
+                          Horarios del día
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7">
+                      {timeSlots.map((slot) => {
+                        const occupied = bay.occupied.includes(slot);
+
+                        return (
+                          <div
+                            key={slot}
+                            className={`rounded-2xl px-3 py-4 text-center text-sm font-black uppercase transition ${
+                              occupied
+                                ? "bg-[#d92d20] text-white"
+                                : "bg-[#17833d] text-white"
+                            }`}
+                          >
+                            {slot}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          ) : null}
 
           {message ? (
             <div className="rounded-2xl border border-[#17833d]/10 bg-white p-5 text-sm font-semibold text-[#48604f] shadow">
@@ -496,9 +614,7 @@ export default function ReservePage() {
           <section className="space-y-5">
             {availableBays.map((bay, index) => {
               const isSelected = selectedBay?.code === bay.code;
-
               const accent = getBayAccent(bay.type);
-
               const image = bayImages[bay.code] || bayImages.B1;
 
               return (
@@ -528,22 +644,18 @@ export default function ReservePage() {
 
                   <div className="grid md:grid-cols-[260px_1fr_auto]">
                     <div
-                      className="relative min-h-[230px] overflow-hidden bg-cover bg-center"
+                      className="relative min-h-[230px] overflow-hidden bg-cover bg-center transition duration-500 group-hover:scale-[1.03]"
                       style={{
                         backgroundImage: `linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.45)), url('${image}')`,
                       }}
                     >
-                      <div className="absolute inset-0 transition duration-500 group-hover:scale-110 bg-cover bg-center" />
-
                       <div className="relative flex h-full items-end p-5">
                         <div className="rounded-2xl bg-black/55 px-4 py-3 text-white backdrop-blur">
                           <div className="text-xs font-black uppercase tracking-[0.18em] text-white/65">
                             Bahía
                           </div>
 
-                          <div className="text-4xl font-black">
-                            {bay.code}
-                          </div>
+                          <div className="text-4xl font-black">{bay.code}</div>
                         </div>
                       </div>
                     </div>
@@ -595,9 +707,7 @@ export default function ReservePage() {
                           ${bay.price}
                         </div>
 
-                        <div className="text-sm text-[#728076]">
-                          por hora
-                        </div>
+                        <div className="text-sm text-[#728076]">por hora</div>
 
                         <div className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[#17833d]">
                           <Star className="h-4 w-4" />
@@ -638,13 +748,9 @@ export default function ReservePage() {
                   key={label}
                   className="flex items-center justify-between border-b border-black/5 pb-3"
                 >
-                  <span className="text-sm text-[#728076]">
-                    {label}
-                  </span>
+                  <span className="text-sm text-[#728076]">{label}</span>
 
-                  <span className="font-black text-[#103820]">
-                    {value}
-                  </span>
+                  <span className="font-black text-[#103820]">{value}</span>
                 </div>
               ))}
             </div>
@@ -664,9 +770,7 @@ export default function ReservePage() {
               disabled={!selectedBay || saving}
               className="mt-6 w-full rounded-2xl bg-[#17833d] px-7 py-5 text-sm font-black uppercase text-white shadow-[0_20px_45px_rgba(31,154,75,0.25)] transition duration-300 hover:scale-[1.02] hover:bg-[#1f9a4b] disabled:cursor-not-allowed disabled:opacity-40"
             >
-              {saving
-                ? "Guardando..."
-                : "Confirmar reservación"}
+              {saving ? "Guardando..." : "Confirmar reservación"}
             </button>
           </section>
 
@@ -692,9 +796,7 @@ export default function ReservePage() {
                 <div className="grid gap-5 md:grid-cols-[1fr_150px]">
                   <div className="space-y-3 text-sm">
                     <div className="flex items-center justify-between">
-                      <span className="text-[#728076]">
-                        Cliente
-                      </span>
+                      <span className="text-[#728076]">Cliente</span>
 
                       <span className="font-black">
                         {createdReservation.customer}
@@ -702,9 +804,7 @@ export default function ReservePage() {
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <span className="text-[#728076]">
-                        Bahía
-                      </span>
+                      <span className="text-[#728076]">Bahía</span>
 
                       <span className="font-black">
                         {createdReservation.bay}
@@ -712,9 +812,7 @@ export default function ReservePage() {
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <span className="text-[#728076]">
-                        Total
-                      </span>
+                      <span className="text-[#728076]">Total</span>
 
                       <span className="font-black">
                         ${createdReservation.totalAmount}
