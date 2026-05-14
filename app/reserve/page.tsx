@@ -317,7 +317,57 @@ export default function ReservePage() {
         </div>
       </section>
 
-      <div className="mx-auto grid max-w-7xl gap-6 px-6 py-8 xl:grid-cols-[1.2fr_0.8fr]">
+<section className="bg-[#07150d] py-14">
+  <div className="mx-auto max-w-7xl px-6">
+    <div className="text-center">
+      <div className="inline-flex rounded-full border border-white/10 bg-white/5 px-5 py-2 text-xs font-black uppercase tracking-[0.25em] text-[#38a45b] backdrop-blur">
+        Empresas aliadas
+      </div>
+
+      <h2 className="mt-5 text-4xl font-black uppercase tracking-tight text-white md:text-5xl">
+        Partners & Sponsors
+      </h2>
+
+      <p className="mt-4 text-base text-white/60">
+        Empresas que forman parte de la experiencia Bunker 19.
+      </p>
+    </div>
+
+    <div className="mt-12 grid gap-6 md:grid-cols-3">
+      <div className="group rounded-[32px] border border-white/10 bg-white/5 p-8 backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#38a45b]/40 hover:bg-white/10 hover:shadow-[0_20px_50px_rgba(31,154,75,0.18)]">
+        <div className="flex h-28 items-center justify-center overflow-hidden rounded-2xl bg-black/20 p-4">
+          <img
+            src="/partners/ermex.png"
+            alt="ERMEX"
+            className="max-h-full max-w-full object-contain transition duration-300 group-hover:scale-105"
+          />
+        </div>
+      </div>
+
+      <div className="group rounded-[32px] border border-white/10 bg-white/5 p-8 backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#38a45b]/40 hover:bg-white/10 hover:shadow-[0_20px_50px_rgba(31,154,75,0.18)]">
+        <div className="flex h-28 items-center justify-center overflow-hidden rounded-2xl bg-white p-4">
+          <img
+            src="/partners/venue16.jpg"
+            alt="Venue 16"
+            className="max-h-full max-w-full object-contain transition duration-300 group-hover:scale-105"
+          />
+        </div>
+      </div>
+
+      <div className="group rounded-[32px] border border-white/10 bg-white/5 p-8 backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#38a45b]/40 hover:bg-white/10 hover:shadow-[0_20px_50px_rgba(31,154,75,0.18)]">
+        <div className="flex h-28 items-center justify-center overflow-hidden rounded-2xl bg-white p-4">
+          <img
+            src="/partners/mano-obra.jpeg"
+            alt="Mano de Obra e Ingeniería"
+            className="max-h-full max-w-full object-contain transition duration-300 group-hover:scale-105"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div className="mx-auto grid max-w-7xl gap-6 px-6 py-8 xl:grid-cols-[1.2fr_0.8fr]">
         <div className="space-y-6">
           <section className="rounded-[32px] bg-white p-6 shadow-[0_16px_40px_rgba(21,32,24,0.08)] transition hover:shadow-[0_22px_55px_rgba(21,32,24,0.12)]">
             <div className="flex items-center gap-3">
