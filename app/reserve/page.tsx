@@ -334,36 +334,37 @@ export default function ReservePage() {
     </div>
 
     <div className="mt-12 grid gap-6 md:grid-cols-3">
-  <div className="group rounded-[32px] border border-white/10 bg-white p-8 transition duration-300 hover:-translate-y-1 hover:border-[#38a45b]/40 hover:shadow-[0_20px_50px_rgba(31,154,75,0.18)]">
-    <div className="flex h-28 items-center justify-center overflow-hidden rounded-2xl bg-black p-4">
-      <img
-        src="/partners/ermex.png"
-        alt="ERMEX"
-        className="max-h-full max-w-full object-contain transition duration-300 group-hover:scale-105"
-      />
-    </div>
-  </div>
+      <div className="group rounded-[32px] border border-white/10 bg-white p-8 transition duration-300 hover:-translate-y-1 hover:border-[#38a45b]/40 hover:shadow-[0_20px_50px_rgba(31,154,75,0.18)]">
+        <div className="flex h-28 items-center justify-center overflow-hidden rounded-2xl bg-black p-4">
+          <img
+            src="/partners/ermex.png"
+            alt="ERMEX"
+            className="max-h-full max-w-full object-contain transition duration-300 group-hover:scale-105"
+          />
+        </div>
+      </div>
 
-  <div className="group rounded-[32px] border border-white/10 bg-white p-8 transition duration-300 hover:-translate-y-1 hover:border-[#38a45b]/40 hover:shadow-[0_20px_50px_rgba(31,154,75,0.18)]">
-    <div className="flex h-28 items-center justify-center overflow-hidden rounded-2xl bg-white p-4">
-      <img
-        src="/partners/venue16.jpg"
-        alt="Venue 16"
-        className="max-h-full max-w-full object-contain transition duration-300 group-hover:scale-105"
-      />
-    </div>
-  </div>
+      <div className="group rounded-[32px] border border-white/10 bg-white p-8 transition duration-300 hover:-translate-y-1 hover:border-[#38a45b]/40 hover:shadow-[0_20px_50px_rgba(31,154,75,0.18)]">
+        <div className="flex h-28 items-center justify-center overflow-hidden rounded-2xl bg-white p-4">
+          <img
+            src="/partners/venue16.jpg"
+            alt="Venue 16"
+            className="max-h-full max-w-full object-contain transition duration-300 group-hover:scale-105"
+          />
+        </div>
+      </div>
 
-  <div className="group rounded-[32px] border border-white/10 bg-white p-8 transition duration-300 hover:-translate-y-1 hover:border-[#38a45b]/40 hover:shadow-[0_20px_50px_rgba(31,154,75,0.18)]">
-    <div className="flex h-28 items-center justify-center overflow-hidden rounded-2xl bg-white p-4">
-      <img
-        src="/partners/mano-obra.jpeg"
-        alt="Mano de Obra e Ingeniería"
-        className="max-h-full max-w-full object-contain transition duration-300 group-hover:scale-105"
-      />
+      <div className="group rounded-[32px] border border-white/10 bg-white p-8 transition duration-300 hover:-translate-y-1 hover:border-[#38a45b]/40 hover:shadow-[0_20px_50px_rgba(31,154,75,0.18)]">
+        <div className="flex h-28 items-center justify-center overflow-hidden rounded-2xl bg-white p-4">
+          <img
+            src="/partners/mano-obra.jpeg"
+            alt="Mano de Obra e Ingeniería"
+            className="max-h-full max-w-full object-contain transition duration-300 group-hover:scale-105"
+          />
+        </div>
+      </div>
     </div>
   </div>
-</div>
 </section>
 
 <div className="mx-auto grid max-w-7xl gap-6 px-6 py-8 xl:grid-cols-[1.2fr_0.8fr]">
