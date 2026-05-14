@@ -334,8 +334,8 @@ export default function ReservePage() {
     </div>
 
     <div className="mt-12 grid gap-6 md:grid-cols-3">
-      <div className="group rounded-[32px] border border-white/10 bg-white p-8 transition duration-300 hover:-translate-y-1 hover:border-[#38a45b]/40 hover:shadow-[0_20px_50px_rgba(31,154,75,0.18)]">
-        <div className="flex h-28 items-center justify-center overflow-hidden rounded-2xl bg-black p-4">
+      <div className="group rounded-[32px] border border-white/10 bg-white p-4 transition duration-300 hover:-translate-y-1 hover:border-[#38a45b]/40 hover:shadow-[0_20px_50px_rgba(31,154,75,0.18)]">
+        <div className="flex h-44 items-center justify-center overflow-hidden rounded-2xl bg-black p-4">
           <img
             src="/partners/ermex.png"
             alt="ERMEX"
@@ -344,8 +344,8 @@ export default function ReservePage() {
         </div>
       </div>
 
-      <div className="group rounded-[32px] border border-white/10 bg-white p-8 transition duration-300 hover:-translate-y-1 hover:border-[#38a45b]/40 hover:shadow-[0_20px_50px_rgba(31,154,75,0.18)]">
-        <div className="flex h-28 items-center justify-center overflow-hidden rounded-2xl bg-white p-4">
+      <div className="group rounded-[32px] border border-white/10 bg-white p-4 transition duration-300 hover:-translate-y-1 hover:border-[#38a45b]/40 hover:shadow-[0_20px_50px_rgba(31,154,75,0.18)]">
+        <div className="flex h-44 items-center justify-center overflow-hidden rounded-2xl bg-white p-4">
           <img
             src="/partners/venue16.jpg"
             alt="Venue 16"
@@ -354,8 +354,8 @@ export default function ReservePage() {
         </div>
       </div>
 
-      <div className="group rounded-[32px] border border-white/10 bg-white p-8 transition duration-300 hover:-translate-y-1 hover:border-[#38a45b]/40 hover:shadow-[0_20px_50px_rgba(31,154,75,0.18)]">
-        <div className="flex h-28 items-center justify-center overflow-hidden rounded-2xl bg-white p-4">
+      <div className="group rounded-[32px] border border-white/10 bg-white p-4 transition duration-300 hover:-translate-y-1 hover:border-[#38a45b]/40 hover:shadow-[0_20px_50px_rgba(31,154,75,0.18)]">
+        <div className="flex h-44 items-center justify-center overflow-hidden rounded-2xl bg-white p-4">
           <img
             src="/partners/mano-obra.jpeg"
             alt="Mano de Obra e Ingeniería"
