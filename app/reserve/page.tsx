@@ -578,72 +578,7 @@ export default function ReservePage() {
             </div>
           </section>
 
-          {scheduleData.length > 0 ? (
-            <section className="rounded-[32px] bg-white p-6 shadow-[0_16px_40px_rgba(21,32,24,0.08)]">
-              <div className="flex items-center justify-between gap-4">
-                <div>
-                  <div className="text-xs font-black uppercase tracking-[0.22em] text-[#17833d]">
-                    Live Schedule
-                  </div>
-
-                  <h2 className="mt-1 text-3xl font-black uppercase text-[#103820]">
-                    Disponibilidad en tiempo real
-                  </h2>
-                </div>
-
-                <div className="flex flex-wrap gap-2 text-xs font-black uppercase">
-                  <div className="rounded-full bg-[#17833d] px-3 py-2 text-white">
-                    Libre
-                  </div>
-
-                  <div className="rounded-full bg-[#d92d20] px-3 py-2 text-white">
-                    Ocupado
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 space-y-5">
-                {scheduleData.map((bay) => (
-                  <div
-                    key={bay.code}
-                    className="rounded-[28px] border border-black/5 bg-[#f7f7f4] p-5"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="text-3xl font-black text-[#103820]">
-                          {bay.code}
-                        </div>
-
-                        <div className="text-xs font-black uppercase tracking-[0.18em] text-[#728076]">
-                          Horarios del día
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7">
-                      {timeSlots.map((slot) => {
-                        const occupied = bay.occupied.includes(slot);
-
-                        return (
-                          <div
-                            key={slot}
-                            className={`rounded-2xl px-3 py-4 text-center text-sm font-black uppercase transition ${
-                              occupied
-                                ? "bg-[#d92d20] text-white"
-                                : "bg-[#17833d] text-white"
-                            }`}
-                          >
-                            {slot}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-          ) : null}
-
+          
           {message ? (
             <div className="rounded-2xl border border-[#17833d]/10 bg-white p-5 text-sm font-semibold text-[#48604f] shadow">
               {message}
