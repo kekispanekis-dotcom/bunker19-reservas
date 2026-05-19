@@ -125,8 +125,8 @@ export default function ReservePage() {
   );
 
   const qrText = createdReservation
-    ? `BUNKER 19 | Reserva: ${createdReservation.code}`
-    : "BUNKER 19";
+  ? `https://bunker19-admin.vercel.app/admin/checkin?code=${createdReservation.code}`
+  : "BUNKER 19";
 
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(
     qrText
