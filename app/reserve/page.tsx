@@ -370,20 +370,37 @@ export default function ReservePage() {
                 <CalendarDays className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#17833d]" />
               </div>
 
-              <select
-                value={startTime}
-                onChange={(e) => {
-                  setStartTime(e.target.value);
-                  setAvailableBays([]);
-                  setSelectedBay(null);
-                  setCreatedReservation(null);
-                }}
-                className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition duration-300 focus:border-[#17833d]"
-              >
-                {timeSlots.map((slot) => (
-                  <option key={slot}>{slot}</option>
-                ))}
-              </select>
+              <div className="md:col-span-3">
+  <div className="mb-3 text-xs font-black uppercase tracking-[0.22em] text-[#728076]">
+    Selecciona horario
+  </div>
+
+  <div className="flex gap-2 overflow-x-auto rounded-2xl border border-black/10 bg-[#f7f7f4] p-2">
+    {timeSlots.map((slot) => {
+      const active = startTime === slot;
+
+      return (
+        <button
+          key={slot}
+          type="button"
+          onClick={() => {
+            setStartTime(slot);
+            setAvailableBays([]);
+            setSelectedBay(null);
+            setCreatedReservation(null);
+          }}
+          className={`min-w-[86px] rounded-xl px-4 py-3 text-sm font-black transition duration-300 ${
+            active
+              ? "bg-[#17833d] text-white shadow-[0_12px_28px_rgba(31,154,75,0.28)]"
+              : "bg-white text-[#48604f] hover:bg-[#eaf6e8] hover:text-[#17833d]"
+          }`}
+        >
+          {slot}
+        </button>
+      );
+    })}
+  </div>
+</div>
 
               <select
                 value={durationHours}
