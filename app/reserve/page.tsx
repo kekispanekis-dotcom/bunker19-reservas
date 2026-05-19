@@ -317,55 +317,6 @@ export default function ReservePage() {
         </div>
       </section>
 
-<section className="bg-[#07150d] py-14">
-  <div className="mx-auto max-w-7xl px-6">
-    <div className="text-center">
-      <div className="inline-flex rounded-full border border-white/10 bg-white/5 px-5 py-2 text-xs font-black uppercase tracking-[0.25em] text-[#38a45b] backdrop-blur">
-        Empresas aliadas
-      </div>
-
-      <h2 className="mt-5 text-4xl font-black uppercase tracking-tight text-white md:text-5xl">
-        Partners & Sponsors
-      </h2>
-
-      <p className="mt-4 text-base text-white/60">
-        Empresas que forman parte de la experiencia Bunker 19.
-      </p>
-    </div>
-
-    <div className="mt-12 grid gap-6 md:grid-cols-3">
-      <div className="group rounded-[32px] border border-white/10 bg-white p-4 transition duration-300 hover:-translate-y-1 hover:border-[#38a45b]/40 hover:shadow-[0_20px_50px_rgba(31,154,75,0.18)]">
-        <div className="flex h-44 items-center justify-center overflow-hidden rounded-2xl bg-white p-4">
-          <img
-            src="/partners/ermex.png"
-            alt="ERMEX"
-            className="max-h-full max-w-full object-contain transition duration-300 group-hover:scale-105"
-          />
-        </div>
-      </div>
-
-      <div className="group rounded-[32px] border border-white/10 bg-white p-4 transition duration-300 hover:-translate-y-1 hover:border-[#38a45b]/40 hover:shadow-[0_20px_50px_rgba(31,154,75,0.18)]">
-        <div className="flex h-44 items-center justify-center overflow-hidden rounded-2xl bg-white p-4">
-          <img
-            src="/partners/venue16.jpg"
-            alt="Venue 16"
-            className="max-h-full max-w-full object-contain transition duration-300 group-hover:scale-105"
-          />
-        </div>
-      </div>
-
-      <div className="group rounded-[32px] border border-white/10 bg-white p-4 transition duration-300 hover:-translate-y-1 hover:border-[#38a45b]/40 hover:shadow-[0_20px_50px_rgba(31,154,75,0.18)]">
-        <div className="flex h-44 items-center justify-center overflow-hidden rounded-2xl bg-white p-4">
-          <img
-            src="/partners/mano-obra.jpeg"
-            alt="Mano de Obra e Ingeniería"
-            className="max-h-full max-w-full object-contain transition duration-300 group-hover:scale-105"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <div className="mx-auto grid max-w-7xl gap-6 px-6 py-8 xl:grid-cols-[1.2fr_0.8fr]">
         <div className="space-y-6">
@@ -578,71 +529,7 @@ export default function ReservePage() {
             </div>
           </section>
 
-          {scheduleData.length > 0 ? (
-            <section className="rounded-[32px] bg-white p-6 shadow-[0_16px_40px_rgba(21,32,24,0.08)]">
-              <div className="flex items-center justify-between gap-4">
-                <div>
-                  <div className="text-xs font-black uppercase tracking-[0.22em] text-[#17833d]">
-                    Live Schedule
-                  </div>
-
-                  <h2 className="mt-1 text-3xl font-black uppercase text-[#103820]">
-                    Disponibilidad en tiempo real
-                  </h2>
-                </div>
-
-                <div className="flex flex-wrap gap-2 text-xs font-black uppercase">
-                  <div className="rounded-full bg-[#17833d] px-3 py-2 text-white">
-                    Libre
-                  </div>
-
-                  <div className="rounded-full bg-[#d92d20] px-3 py-2 text-white">
-                    Ocupado
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 space-y-5">
-                {scheduleData.map((bay) => (
-                  <div
-                    key={bay.code}
-                    className="rounded-[28px] border border-black/5 bg-[#f7f7f4] p-5"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="text-3xl font-black text-[#103820]">
-                          {bay.code}
-                        </div>
-
-                        <div className="text-xs font-black uppercase tracking-[0.18em] text-[#728076]">
-                          Horarios del día
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7">
-                      {timeSlots.map((slot) => {
-                        const occupied = bay.occupied.includes(slot);
-
-                        return (
-                          <div
-                            key={slot}
-                            className={`rounded-2xl px-3 py-4 text-center text-sm font-black uppercase transition ${
-                              occupied
-                                ? "bg-[#d92d20] text-white"
-                                : "bg-[#17833d] text-white"
-                            }`}
-                          >
-                            {slot}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-          ) : null}
+          
 
           {message ? (
             <div className="rounded-2xl border border-[#17833d]/10 bg-white p-5 text-sm font-semibold text-[#48604f] shadow">
@@ -898,6 +785,56 @@ export default function ReservePage() {
           ) : null}
         </aside>
       </div>
+      <section className="bg-[#07150d] py-14">
+  <div className="mx-auto max-w-7xl px-6">
+    <div className="text-center">
+      <div className="inline-flex rounded-full border border-white/10 bg-white/5 px-5 py-2 text-xs font-black uppercase tracking-[0.25em] text-[#38a45b] backdrop-blur">
+        Empresas aliadas
+      </div>
+
+      <h2 className="mt-5 text-4xl font-black uppercase tracking-tight text-white md:text-5xl">
+        Partners & Sponsors
+      </h2>
+
+      <p className="mt-4 text-base text-white/60">
+        Empresas que forman parte de la experiencia Bunker 19.
+      </p>
+    </div>
+
+    <div className="mt-12 grid gap-6 md:grid-cols-3">
+      <div className="group rounded-[32px] border border-white/10 bg-white p-4 transition duration-300 hover:-translate-y-1 hover:border-[#38a45b]/40 hover:shadow-[0_20px_50px_rgba(31,154,75,0.18)]">
+        <div className="flex h-44 items-center justify-center overflow-hidden rounded-2xl bg-white p-4">
+          <img
+            src="/partners/ermex.png"
+            alt="ERMEX"
+            className="max-h-full max-w-full object-contain transition duration-300 group-hover:scale-105"
+          />
+        </div>
+      </div>
+
+      <div className="group rounded-[32px] border border-white/10 bg-white p-4 transition duration-300 hover:-translate-y-1 hover:border-[#38a45b]/40 hover:shadow-[0_20px_50px_rgba(31,154,75,0.18)]">
+        <div className="flex h-44 items-center justify-center overflow-hidden rounded-2xl bg-white p-4">
+          <img
+            src="/partners/venue16.jpg"
+            alt="Venue 16"
+            className="max-h-full max-w-full object-contain transition duration-300 group-hover:scale-105"
+          />
+        </div>
+      </div>
+
+      <div className="group rounded-[32px] border border-white/10 bg-white p-4 transition duration-300 hover:-translate-y-1 hover:border-[#38a45b]/40 hover:shadow-[0_20px_50px_rgba(31,154,75,0.18)]">
+        <div className="flex h-44 items-center justify-center overflow-hidden rounded-2xl bg-white p-4">
+          <img
+            src="/partners/mano-obra.jpeg"
+            alt="Mano de Obra e Ingeniería"
+            className="max-h-full max-w-full object-contain transition duration-300 group-hover:scale-105"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
     </main>
   );
 }
