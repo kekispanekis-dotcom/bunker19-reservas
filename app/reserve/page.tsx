@@ -264,7 +264,7 @@ export default function ReservePage() {
     setPhone("");
     setEmail("");
 
-    await checkAvailability();
+    await loadSchedule();
   }
 
   function selectBayFromMap(code: AvailableBay["code"]) {
