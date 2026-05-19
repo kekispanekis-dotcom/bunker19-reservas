@@ -418,20 +418,37 @@ export default function ReservePage() {
                 <option value="4">4 horas</option>
               </select>
 
-              <select
-                value={guestCount}
-                onChange={(e) => {
-                  setGuestCount(e.target.value);
-                  setAvailableBays([]);
-                  setSelectedBay(null);
-                  setCreatedReservation(null);
-                }}
-                className="rounded-2xl border border-black/10 bg-[#f7f7f4] px-5 py-4 font-semibold outline-none transition duration-300 focus:border-[#17833d]"
-              >
-                {["2", "3", "4", "5", "6", "8", "10"].map((qty) => (
-                  <option key={qty}>{qty} personas</option>
-                ))}
-              </select>
+              <div>
+  <div className="mb-3 text-xs font-black uppercase tracking-[0.22em] text-[#728076]">
+    Personas
+  </div>
+
+  <div className="flex gap-2 overflow-x-auto rounded-2xl border border-black/10 bg-[#f7f7f4] p-2">
+    {["2", "4", "6", "8", "10"].map((qty) => {
+      const active = guestCount === qty;
+
+      return (
+        <button
+          key={qty}
+          type="button"
+          onClick={() => {
+            setGuestCount(qty);
+            setAvailableBays([]);
+            setSelectedBay(null);
+            setCreatedReservation(null);
+          }}
+          className={`flex-1 rounded-xl px-4 py-3 text-sm font-black transition duration-300 ${
+            active
+              ? "bg-[#17833d] text-white shadow-[0_12px_28px_rgba(31,154,75,0.28)]"
+              : "bg-white text-[#48604f] hover:bg-[#eaf6e8] hover:text-[#17833d]"
+          }`}
+        >
+          {qty}
+        </button>
+      );
+    })}
+  </div>
+</div>
             </div>
 
             <button
