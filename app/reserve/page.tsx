@@ -663,7 +663,7 @@ export default function ReservePage() {
         </div>
 
         <aside className="space-y-6">
-          <section className="sticky top-6 rounded-[32px] bg-white p-6 shadow-[0_20px_55px_rgba(21,32,24,0.12)] transition hover:shadow-[0_28px_65px_rgba(21,32,24,0.16)]">
+          <section className="rounded-[32px] bg-white p-6 shadow-[0_20px_55px_rgba(21,32,24,0.12)] transition hover:shadow-[0_28px_65px_rgba(21,32,24,0.16)]">
             <div className="flex items-center gap-3">
               <ShieldCheck className="h-7 w-7 text-[#17833d]" />
 
