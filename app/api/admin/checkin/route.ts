@@ -88,7 +88,7 @@ export async function POST(request: Request) {
         id: reservation.id,
       },
       data: {
-        reservationStatus: "checked_in",
+        reservationStatus: "confirmed",
       },
     });
 

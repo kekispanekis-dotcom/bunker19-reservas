@@ -135,7 +135,7 @@ export default function CheckinClient() {
 
               <button
                 onClick={doCheckin}
-                disabled={checkingIn || reservation.reservationStatus === "checked_in"}
+                disabled={checkingIn || reservation.reservationStatus === "confirmed"}
                 className="mt-8 flex w-full items-center justify-center gap-3 rounded-2xl bg-[#1f5c3f] px-7 py-5 text-sm font-black uppercase tracking-[0.18em] text-white shadow-xl transition hover:scale-[1.02] hover:bg-[#28764f] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <CheckCircle2 className="h-5 w-5" />
