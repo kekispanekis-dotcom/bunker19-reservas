@@ -529,31 +529,30 @@ export default function ReservePage() {
         const image = bayImages[bay.code] || bayImages.B1;
 
         return (
-          <motion.button
-            key={bay.code}
-            initial={{ opacity: 0, y: 30 }}
-animate={{ opacity: 1, y: 0 }}
-transition={{
-  duration: 0.45,
-  delay: index * 0.08,
-}}
-whileHover={{
-  y: -6,
-  scale: 1.01,
-}}
-whileTap={{
-  scale: 0.98,
-}}
-            type="button"
-            onClick={() => setSelectedBay(bay)}
-            className={`group relative overflow-hidden rounded-[32px] border text-left transition-all duration-300 ${
-  isSelected
-    ? `${accent.border} ${accent.glow} scale-[1.01]`
-    : bay.type === "vip"
-    ? "border-amber-500/20 bg-white/5 hover:-translate-y-1 hover:border-amber-400 hover:bg-amber-500/10 hover:shadow-[0_18px_45px_rgba(251,191,36,0.22)]"
-    : "border-white/10 bg-white/5 hover:-translate-y-1 hover:border-[#38a45b]/50 hover:bg-[#17833d]/10 hover:shadow-[0_18px_45px_rgba(34,197,94,0.18)]"
-}`}
-          >
+<motion.button
+  key={bay.code}
+  initial={{ opacity: 0, y: 30 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{
+    duration: 0.45,
+    delay: index * 0.08,
+  }}
+  whileHover={{
+    y: -6,
+  }}
+  whileTap={{
+    scale: 0.98,
+  }}
+  type="button"
+  onClick={() => setSelectedBay(bay)}
+  className={`group relative overflow-hidden rounded-[32px] border text-left transition-all duration-300 ${
+    isSelected
+      ? `${accent.border} ${accent.glow}`
+      : bay.type === "vip"
+      ? "border-amber-500/20 bg-white/5 hover:-translate-y-1 hover:border-amber-400 hover:bg-amber-500/10 hover:shadow-[0_18px_45px_rgba(251,191,36,0.22)]"
+      : "border-white/10 bg-white/5 hover:-translate-y-1 hover:border-[#38a45b]/50 hover:bg-[#17833d]/10 hover:shadow-[0_18px_45px_rgba(34,197,94,0.18)]"
+  }`}
+>
             <div className="grid md:grid-cols-[240px_1fr_220px]">
               <div
                 className="relative min-h-[220px] overflow-hidden bg-cover bg-center"
