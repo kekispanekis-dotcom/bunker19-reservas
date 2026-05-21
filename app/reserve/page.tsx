@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { motion } from "framer-motion";
 import {
   CalendarDays,
   Users,
@@ -528,8 +529,21 @@ export default function ReservePage() {
         const image = bayImages[bay.code] || bayImages.B1;
 
         return (
-          <button
+          <motion.button
             key={bay.code}
+            initial={{ opacity: 0, y: 30 }}
+animate={{ opacity: 1, y: 0 }}
+transition={{
+  duration: 0.45,
+  delay: index * 0.08,
+}}
+whileHover={{
+  y: -6,
+  scale: 1.01,
+}}
+whileTap={{
+  scale: 0.98,
+}}
             type="button"
             onClick={() => setSelectedBay(bay)}
             className={`group relative overflow-hidden rounded-[32px] border text-left transition-all duration-300 ${
@@ -637,7 +651,7 @@ export default function ReservePage() {
                 </div>
               </div>
             </div>
-          </button>
+          </motion.button>
         );
       })}
     </div>
