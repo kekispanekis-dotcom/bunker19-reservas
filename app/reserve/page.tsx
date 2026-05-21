@@ -48,11 +48,11 @@ const timeSlots = [
 ];
 
 const bayImages: Record<string, string> = {
-  B1: "https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=1200&auto=format&fit=crop",
-  B2: "https://images.unsplash.com/photo-1593111774240-d529f12cf4bb?q=80&w=1200&auto=format&fit=crop",
-  B3: "https://images.unsplash.com/photo-1535131749006-b7f58c99034b?q=80&w=1200&auto=format&fit=crop",
-  B4: "https://images.unsplash.com/photo-1599058917765-a780eda07a3e?q=80&w=1200&auto=format&fit=crop",
-  B19: "https://images.unsplash.com/photo-1535131749006-b7f58c99034b?q=80&w=1200&auto=format&fit=crop",
+  B1: "/bays/bahia1.png",
+  B2: "/bays/bahia2.png",
+  B3: "/bays/bahia3.png",
+  B4: "/bays/bahia4.png",
+  B19: "/bays/bahia19.png",
 };
 
 const bayMap = [
