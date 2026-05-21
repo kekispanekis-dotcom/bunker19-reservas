@@ -598,117 +598,149 @@ export default function ReservePage() {
           ) : null}
 
           <section className="space-y-5">
-            {availableBays.map((bay, index) => {
-              const isSelected = selectedBay?.code === bay.code;
-              const accent = getBayAccent(bay.type);
-              const image = bayImages[bay.code] || bayImages.B1;
+  <div className="rounded-[32px] bg-[#07150d] p-6 text-white shadow-[0_20px_55px_rgba(21,32,24,0.14)]">
+    <div className="flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <div className="text-xs font-black uppercase tracking-[0.25em] text-white/45">
+          Selección premium
+        </div>
 
-              return (
-                <button
-                  key={bay.code}
-                  type="button"
-                  onClick={() => setSelectedBay(bay)}
-                  className={`group relative w-full overflow-hidden rounded-[32px] border bg-white p-0 text-left transition-all duration-300 ${
-                    isSelected
-                      ? `${accent.border} ${accent.glow} scale-[1.01]`
-                      : "border-black/5 shadow-[0_14px_35px_rgba(21,32,24,0.06)] hover:-translate-y-1 hover:shadow-[0_25px_60px_rgba(21,32,24,0.14)]"
-                  }`}
-                >
-                  <div className="absolute right-5 top-5 z-20 flex gap-2">
-                    {index === 0 && (
-                      <div className="rounded-full bg-[#17833d] px-3 py-2 text-xs font-black uppercase text-white shadow-xl">
-                        Most Popular
-                      </div>
-                    )}
+        <h2 className="mt-2 text-3xl font-black uppercase">
+          Selecciona tu bahía
+        </h2>
+      </div>
 
-                    {bay.type === "vip" && (
-                      <div className="rounded-full bg-amber-500 px-3 py-2 text-xs font-black uppercase text-white shadow-xl">
-                        VIP Experience
-                      </div>
-                    )}
+      <div className="flex gap-2">
+        <div className="rounded-full bg-[#17833d] px-3 py-2 text-xs font-black uppercase text-white">
+          Disponible
+        </div>
+
+        <div className="rounded-full bg-amber-500 px-3 py-2 text-xs font-black uppercase text-white">
+          VIP
+        </div>
+      </div>
+    </div>
+
+    <div className="mt-6 grid gap-5">
+      {availableBays.map((bay, index) => {
+        const isSelected = selectedBay?.code === bay.code;
+        const accent = getBayAccent(bay.type);
+        const image = bayImages[bay.code] || bayImages.B1;
+
+        return (
+          <button
+            key={bay.code}
+            type="button"
+            onClick={() => setSelectedBay(bay)}
+            className={`group relative overflow-hidden rounded-[32px] border text-left transition-all duration-300 ${
+              isSelected
+                ? `${accent.border} ${accent.glow} scale-[1.01]`
+                : "border-white/10 bg-white/5 hover:-translate-y-1 hover:border-[#38a45b]/40"
+            }`}
+          >
+            <div className="grid md:grid-cols-[240px_1fr_220px]">
+              <div
+                className="relative min-h-[220px] overflow-hidden bg-cover bg-center"
+                style={{
+                  backgroundImage: `linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.55)), url('${image}')`,
+                }}
+              >
+                <div className="absolute left-5 top-5 flex gap-2">
+                  <div
+                    className={`rounded-full border px-3 py-1 text-xs font-black uppercase tracking-[0.18em] ${accent.badge}`}
+                  >
+                    {accent.label}
                   </div>
 
-                  <div className="grid md:grid-cols-[260px_1fr_auto]">
-                    <div
-                      className="relative min-h-[230px] overflow-hidden bg-cover bg-center transition duration-500 group-hover:scale-[1.03]"
-                      style={{
-                        backgroundImage: `linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.45)), url('${image}')`,
-                      }}
-                    >
-                      <div className="relative flex h-full items-end p-5">
-                        <div className="rounded-2xl bg-black/55 px-4 py-3 text-white backdrop-blur">
-                          <div className="text-xs font-black uppercase tracking-[0.18em] text-white/65">
-                            Bahía
-                          </div>
+                  {index === 0 && (
+                    <div className="rounded-full bg-[#17833d] px-3 py-1 text-xs font-black uppercase text-white">
+                      Popular
+                    </div>
+                  )}
+                </div>
 
-                          <div className="text-4xl font-black">{bay.code}</div>
-                        </div>
-                      </div>
+                <div className="absolute bottom-5 left-5">
+                  <div className="rounded-2xl bg-black/55 px-4 py-3 backdrop-blur">
+                    <div className="text-xs font-black uppercase tracking-[0.18em] text-white/60">
+                      Bahía
                     </div>
 
-                    <div className="p-6">
-                      <div className="flex flex-wrap items-center gap-3">
-                        <div
-                          className={`rounded-full border px-3 py-1 text-xs font-black uppercase tracking-[0.18em] ${accent.badge}`}
-                        >
-                          {accent.label}
-                        </div>
-
-                        {isSelected ? (
-                          <div className="rounded-full bg-[#17833d] px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-white shadow-lg">
-                            Seleccionada
-                          </div>
-                        ) : null}
-                      </div>
-
-                      <div className="mt-3 text-2xl font-black text-[#243328]">
-                        {bay.name}
-                      </div>
-
-                      <div className="mt-5 flex flex-wrap gap-2">
-                        <div className="inline-flex items-center gap-2 rounded-full bg-[#eef7eb] px-4 py-2 text-sm font-semibold text-[#17833d]">
-                          <Users className="h-4 w-4" />
-                          {bay.capacity} personas
-                        </div>
-
-                        <div className="inline-flex items-center gap-2 rounded-full bg-[#f5f5f2] px-4 py-2 text-sm font-semibold text-[#48604f]">
-                          <Clock3 className="h-4 w-4 text-[#17833d]" />
-                          Reserva por hora
-                        </div>
-
-                        <div className="inline-flex items-center gap-2 rounded-full bg-[#f5f5f2] px-4 py-2 text-sm font-semibold text-[#48604f]">
-                          <MapPin className="h-4 w-4 text-[#17833d]" />
-                          Bunker 19
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="p-6 md:min-w-[220px]">
-                      <div className="rounded-[28px] bg-[#f7f7f4] p-5 text-left transition duration-300 group-hover:bg-[#eef7eb] md:text-right">
-                        <div className="text-xs font-black uppercase tracking-[0.18em] text-[#7a887e]">
-                          Tarifa
-                        </div>
-
-                        <div className="mt-1 text-5xl font-black text-[#103820]">
-                          ${bay.price}
-                        </div>
-
-                        <div className="text-sm text-[#728076]">por hora</div>
-
-                        <div className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[#17833d]">
-                          <Star className="h-4 w-4" />
-
-                          {bay.type === "vip"
-                            ? "Experiencia premium"
-                            : "Ideal para grupos"}
-                        </div>
-                      </div>
+                    <div className="text-5xl font-black text-white">
+                      {bay.code}
                     </div>
                   </div>
-                </button>
-              );
-            })}
-          </section>
+                </div>
+              </div>
+
+              <div className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-3xl font-black">
+                      {bay.name}
+                    </div>
+
+                    <div className="mt-2 text-sm text-white/55">
+                      {bay.type === "vip"
+                        ? "Experiencia premium para grupos y eventos."
+                        : "Ideal para grupos, comida y simulador."}
+                    </div>
+                  </div>
+
+                  {isSelected ? (
+                    <div className="rounded-full bg-[#17833d] px-4 py-2 text-xs font-black uppercase text-white shadow-xl">
+                      Seleccionada
+                    </div>
+                  ) : null}
+                </div>
+
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-bold text-white">
+                    <Users className="h-4 w-4 text-[#38a45b]" />
+                    {bay.capacity} personas
+                  </div>
+
+                  <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-bold text-white">
+                    <Clock3 className="h-4 w-4 text-[#38a45b]" />
+                    Reserva por hora
+                  </div>
+
+                  <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-bold text-white">
+                    <MapPin className="h-4 w-4 text-[#38a45b]" />
+                    Bunker 19
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-6">
+                <div className="rounded-[28px] bg-white/10 p-5 backdrop-blur">
+                  <div className="text-xs font-black uppercase tracking-[0.18em] text-white/50">
+                    Tarifa
+                  </div>
+
+                  <div className="mt-2 text-5xl font-black text-white">
+                    ${bay.price}
+                  </div>
+
+                  <div className="text-sm text-white/60">
+                    por hora
+                  </div>
+
+                  <div className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#38a45b]">
+                    <Star className="h-4 w-4" />
+
+                    {bay.type === "vip"
+                      ? "Experiencia VIP"
+                      : "Ideal para grupos"}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </button>
+        );
+      })}
+    </div>
+  </div>
+</section>
         </div>
 
         <aside className="space-y-6">
