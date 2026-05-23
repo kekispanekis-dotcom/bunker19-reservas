@@ -321,11 +321,11 @@ export default function ReservePage() {
 
 <div className="mx-auto grid max-w-7xl gap-6 px-6 py-8 xl:grid-cols-[1.2fr_0.8fr]">
         <div className="space-y-6">
-          <section className="rounded-[32px] bg-white p-6 shadow-[0_16px_40px_rgba(21,32,24,0.08)] transition hover:shadow-[0_22px_55px_rgba(21,32,24,0.12)]">
+          <section className="overflow-hidden rounded-[36px] border border-[#38a45b]/10 bg-[#07150d] p-6 text-white shadow-[0_30px_80px_rgba(0,0,0,0.45)] backdrop-blur">
             <div className="flex items-center gap-3">
               <Trophy className="h-7 w-7 text-[#17833d]" />
 
-              <h2 className="text-3xl font-black uppercase text-[#103820]">
+              <h2 className="text-3xl font-black uppercase text-white">
                 Datos de la reserva
               </h2>
             </div>
@@ -681,19 +681,19 @@ whileTap={{
                   key={label}
                   className="flex items-center justify-between border-b border-black/5 pb-3"
                 >
-                  <span className="text-sm text-[#728076]">{label}</span>
+                  <span className="text-sm text-white/55">{label}</span>
 
-                  <span className="font-black text-[#103820]">{value}</span>
+                  <span className="font-black text-white">{value}</span>
                 </div>
               ))}
             </div>
 
-            <div className="mt-6 rounded-[28px] bg-[#eef7eb] p-5">
-              <div className="text-sm font-semibold text-[#728076]">
+            <div className="mt-6 rounded-[32px] border border-[#38a45b]/20 bg-[#0d2216] p-6 shadow-[0_20px_45px_rgba(31,154,75,0.18)]">
+              <div className="text-sm font-semibold text-white/55">
                 Total estimado
               </div>
 
-              <div className="mt-1 text-5xl font-black text-[#17833d]">
+              <div className="mt-1 text-5xl font-black text-[#38a45b] drop-shadow-[0_0_18px_rgba(56,164,91,0.45)]">
                 ${totalPreview}
               </div>
             </div>
