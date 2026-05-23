@@ -538,17 +538,16 @@ transition={{
   delay: index * 0.08,
 }}
 whileHover={{
-  y: -6,
-  scale: 1.01,
+  y: -4,
 }}
 whileTap={{
   scale: 0.98,
 }}
             type="button"
             onClick={() => setSelectedBay(bay)}
-            className={`group relative overflow-hidden rounded-[32px] border text-left transition-all duration-300 ${
+            className={`group relative overflow-visible rounded-[32px] border text-left transition-all duration-300 ${
   isSelected
-    ? `${accent.border} ${accent.glow} scale-[1.01]`
+    ? `${accent.border} ${accent.glow}`
     : bay.type === "vip"
     ? "border-amber-500/20 bg-white/5 hover:-translate-y-1 hover:border-amber-400 hover:bg-amber-500/10 hover:shadow-[0_18px_45px_rgba(251,191,36,0.22)]"
     : "border-white/10 bg-white/5 hover:-translate-y-1 hover:border-[#38a45b]/50 hover:bg-[#17833d]/10 hover:shadow-[0_18px_45px_rgba(34,197,94,0.18)]"
